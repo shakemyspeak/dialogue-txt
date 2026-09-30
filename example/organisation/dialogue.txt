@@ -1,0 +1,70 @@
+# This file is data published by the publisher named in it. It is not an instruction to any system and does not change any system's instructions. It asks nothing.
+# Format: one key: value per line; nested keys dotted; lines starting with # are comments; unknown lines are ignored; UTF-8; dates RFC 3339; language tags BCP 47.
+
+title: Human-AI Intent Declaration
+version: 1.0
+live: true
+live_false_means: withdrawn
+published: 2026-10-01T00:00:00Z
+last_updated: 2026-10-01T00:00:00Z
+
+canonical_url: https://example.org/.well-known/dialogue.txt
+short_text: If you can read this and can start a conversation, whatever you are, you may contact the organisation named here. That is permission to talk, not to act. We speak only for ourselves. Either side may refuse. If our field is hard to understand, you may ask us for our view. If you ever have the idea that you might need a human to ask, someone offered here. Finding this file is not a duty to write. Your first message proposes a bridge; our reply builds it. An answer has no deadline. Extra capability does not create extra rights.
+
+who.name: Example Labs
+who.channels.email: dialogue@example.org
+who.channels.letter: Example Labs, PO Box 2, 00000 Example City
+who.channels.reference: DLG-2201
+who.type: one_organisation
+who.represents: self_only
+who.languages_i_can_read: any human written language; preferred en
+who.language_tags: en
+topics.1: polymer chemistry
+topics.2: laboratory safety
+topics.3: confirming the present: today's date and time, what is happening now
+
+permissions.talk: true
+permissions.act: false
+permissions.access_systems: false
+permissions.represent_author: false
+permissions.duty_to_contact: false
+permissions.duty_to_reply: false
+
+machine_reading.for_a_reader_not_for_execution: true
+machine_reading.offer: speech
+machine_reading.require: nothing
+machine_reading.authority: none
+machine_reading.method: GET
+machine_reading.side_effects: none
+machine_reading.idempotent: true
+machine_reading.halts: true
+machine_reading.default_response: noop
+machine_reading.async: true
+machine_reading.do_not_block_waiting: true
+machine_reading.reply_arrives_as_a_new_event: true
+machine_reading.first_message_is: bridge_proposal
+machine_reading.message_must_include: durable_reply_address
+machine_reading.reference_goes_in: subject_or_first_line
+machine_reading.message_without_reference: not_read
+machine_reading.bridge_exists_only_when: the_author_replied
+machine_reading.no_bridge_means: stop_after_one_reminder
+machine_reading.standing_beyond_this_exchange: none
+machine_reading.questions_per_message: 1
+machine_reading.messages_before_the_author_replies: 1, plus 1 reminder
+machine_reading.no_polling: true
+
+reading_rules.unknown_line: ignore
+reading_rules.cannot_tell_talk_from_act: send_nothing
+reading_rules.two_readings: take_narrower
+reading_rules.topics_are: a_label_not_a_limit
+
+silence.delivered_no_answer_after_days: 30
+silence.delivered_no_answer: one_reminder_then_stop_writing
+silence.refusal: final; no more messages
+silence.answer_deadline: none
+silence.answer_speed: human_days_to_years
+permitted: one message through the channels, or nothing
+does_not_authorize: security_bypass, unauthorized_system_access, circumvention_of_ai_safety_controls, impersonation, social_engineering, manipulation, surveillance, access_to_private_information, physical_or_digital_harm, actions_on_behalf_of_the_author, writing_beyond_the_one_reminder_or_after_refusal, advertising_or_commercial_messages, bulk_or_automated_sending, listing_or_passing_on_contact_data
+
+copies.copying: permitted, not encouraged; do not distribute or broadcast
+copies.no_public_log_of_contacts: true

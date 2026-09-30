@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dialogue.txt — make and check your file</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #595959;
+  --border: #c8c8c8;
+  --accent: #0065cc;
+  --err-bg: #fff0f0;
+  --err-fg: #b00020;
+  --err-bd: #d07070;
+  --warn-bg: #fffbeb;
+  --warn-fg: #6b4c00;
+  --warn-bd: #c49a17;
+  --note-bg: #f0f6ff;
+  --note-fg: #004db3;
+  --note-bd: #5588dd;
+  --ok-bg: #f0faf3;
+  --ok-fg: #1a6b30;
+  --ok-bd: #4aaa66;
+  --card: #f6f6f6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+    --fg: #e8e8e8;
+    --muted: #aaaaaa;
+    --border: #3a3a3a;
+    --accent: #5599ff;
+    --err-bg: #2a0808;
+    --err-fg: #ff8888;
+    --err-bd: #882222;
+    --warn-bg: #281e00;
+    --warn-fg: #ffcc66;
+    --warn-bd: #886600;
+    --note-bg: #0a1a33;
+    --note-fg: #66aaff;
+    --note-bd: #224488;
+    --ok-bg: #081a10;
+    --ok-fg: #66cc88;
+    --ok-bd: #226633;
+    --card: #1c1c1c;
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  padding:0 16px;
+  max-width:740px;
+  margin:0 auto;
+  line-height:1.6;
+  font-size:16px;
+}
+h1{font-size:1.35rem;margin:1.5rem 0 .5rem}
+h2{font-size:1.1rem;margin:2rem 0 .6rem;padding-bottom:.35rem;border-bottom:1px solid var(--border)}
+h3{font-size:.95rem;margin:.8rem 0 .4rem}
+p{margin:.5rem 0}
+section{margin-bottom:2.5rem}
+.lead{color:var(--muted);font-size:.95rem}
+.info-box{background:var(--note-bg);border-left:3px solid var(--note-bd);color:var(--note-fg);padding:.5rem .8rem;margin:.8rem 0;font-size:.9rem;border-radius:0 4px 4px 0}
+.caution-box{background:var(--warn-bg);border-left:3px solid var(--warn-bd);color:var(--warn-fg);padding:.5rem .8rem;margin:.8rem 0;font-size:.9rem;border-radius:0 4px 4px 0}
+label{display:block;font-weight:600;font-size:.9rem;margin-top:1rem;margin-bottom:.3rem}
+.hint{font-weight:normal;color:var(--muted);font-size:.85rem}
+input[type="text"],input[type="email"],textarea{
+  display:block;width:100%;padding:.45rem .6rem;
+  border:1px solid var(--border);border-radius:4px;
+  background:var(--bg);color:var(--fg);font:inherit;font-size:.9rem;
+}
+input[type="text"]:focus,input[type="email"]:focus,textarea:focus{
+  outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)
+}
+input[type="radio"]{
+  width:1rem;height:1rem;margin-right:.4rem;
+  accent-color:var(--accent);vertical-align:middle;
+}
+input[type="radio"]:focus{outline:2px solid var(--accent);outline-offset:2px}
+input[type="checkbox"]{
+  width:1rem;height:1rem;margin-right:.4rem;
+  accent-color:var(--accent);vertical-align:middle;
+}
+input[type="checkbox"]:focus{outline:2px solid var(--accent);outline-offset:2px}
+input[type="file"]{font:inherit;font-size:.9rem;color:var(--fg)}
+.check-row{display:flex;align-items:center;margin-top:.8rem;font-size:.9rem;font-weight:normal;cursor:pointer}
+.radio-row{display:flex;align-items:center;margin:.3rem 0;font-size:.9rem;font-weight:normal;cursor:pointer}
+textarea.mono{
+  font-family:"SF Mono",Consolas,"Liberation Mono",Menlo,monospace;
+  font-size:.78rem;min-height:16rem;resize:vertical;line-height:1.5;
+}
+button{
+  padding:.45rem 1.1rem;background:var(--accent);color:#fff;
+  border:none;border-radius:4px;cursor:pointer;font:inherit;font-size:.9rem;
+}
+button:hover{opacity:.85}
+button:focus{outline:2px solid var(--accent);outline-offset:2px}
+.btn-sec{background:var(--bg);border:1px solid var(--accent);color:var(--accent)}
+.btn-sec:hover{background:var(--note-bg);opacity:1}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.7rem;align-items:center}
+.result-block{margin-top:1rem}
+.verdict{
+  display:inline-block;padding:.35rem .8rem;border-radius:4px;
+  font-weight:700;font-size:.95rem;margin-bottom:.5rem;
+}
+.verdict.ok{background:var(--ok-bg);color:var(--ok-fg);border:1px solid var(--ok-bd)}
+.verdict.fail{background:var(--err-bg);color:var(--err-fg);border:1px solid var(--err-bd)}
+.ri{display:block;padding:.25rem .6rem;margin:.2rem 0;border-radius:3px;font-size:.85rem}
+.ri.error{background:var(--err-bg);color:var(--err-fg)}
+.ri.warning{background:var(--warn-bg);color:var(--warn-fg)}
+.ri.note{background:var(--note-bg);color:var(--note-fg)}
+.pub-box{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.8rem 1.1rem;margin-top:1rem;font-size:.88rem}
+.pub-box h3{margin-top:0;font-size:.92rem}
+.pub-box ol{margin-left:1.3rem}
+.pub-box li{margin:.4rem 0}
+code{
+  font-family:"SF Mono",Consolas,"Liberation Mono",Menlo,monospace;
+  font-size:.82rem;background:var(--card);border:1px solid var(--border);
+  padding:.1rem .35rem;border-radius:3px;word-break:break-all;
+}
+.file-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-top:.5rem}
+.ref-row{display:flex;gap:.5rem;align-items:flex-start;margin-top:.3rem}
+.ref-row input{flex:1}
+.ref-explain{font-size:.85rem;color:var(--muted);margin:.4rem 0 .2rem}
+.labels-group{margin-top:.5rem}
+footer{border-top:1px solid var(--border);margin-top:2rem;padding:1rem 0 2rem;color:var(--muted);font-size:.82rem;line-height:1.5}
+[hidden]{display:none !important}
+#gen-error{color:var(--err-fg);font-size:.88rem;margin-top:.4rem}
+</style>
+</head>
+<body>
+
+<h1>dialogue.txt — make and check your file</h1>
+<p>A publisher's own published, standing, talk-only consent to be contacted by any reader, including AI systems. The publisher is a person or an organisation. A first message only proposes; the publisher's reply creates the channel.</p>
+<p class="info-box">Everything happens in your browser. Nothing you type is sent anywhere.</p>
+
+<section id="section-gen">
+  <h2>Make your file</h2>
+  <p class="caution-box">Publish a file only for yourself, as an adult, or for an organisation you are authorised to speak for. Never for a child or for another person.</p>
+  <form id="gen-form" novalidate>
+
+    <label>Publisher type</label>
+    <label class="radio-row">
+      <input type="radio" name="pub-type" id="f-type-person" value="person" checked>
+      A person
+    </label>
+    <label class="radio-row">
+      <input type="radio" name="pub-type" id="f-type-org" value="organisation">
+      An organisation
+    </label>
+    <div id="org-note" class="caution-box" hidden style="margin-top:.6rem">
+      Organisations use the "we" wording of the short text; the first line is the same for everyone.
+    </div>
+
+    <label for="f-name">Name (person or organisation)</label>
+    <input type="text" id="f-name" name="name" autocomplete="name" placeholder="Alex Example" required>
+
+    <label for="f-email">Email address <span class="hint">— a dedicated address is recommended</span></label>
+    <input type="email" id="f-email" name="email" autocomplete="email" placeholder="door@example.org" required>
+
+    <label for="f-postal">Postal address <span class="hint">— optional; never your home address; leave empty to offer email only</span></label>
+    <input type="text" id="f-postal" name="postal" placeholder="Example Ltd, PO Box 1, 00000 Example City">
+
+    <label for="f-domain">Your domain <span class="hint">— hostname only, no https://, no path</span></label>
+    <input type="text" id="f-domain" name="domain" placeholder="example.org" required>
+
+    <label for="f-reference">Reference for the subject line</label>
+    <div class="ref-row">
+      <input type="text" id="f-reference" name="reference" placeholder="DLG-4712" required>
+      <button type="button" id="btn-suggest-ref" class="btn-sec">Suggest one</button>
+    </div>
+    <p class="ref-explain">Messages must carry this reference in the subject or first line. Set a filter in your mailbox that keeps only mail containing it. Change it any time; old harvested lists stop working. It is public, not a password.</p>
+
+    <label for="f-langs">Languages you read</label>
+    <input type="text" id="f-langs" name="languages" value="any human written language; preferred en">
+
+    <label for="f-langtags">BCP 47 language tags</label>
+    <input type="text" id="f-langtags" name="langTags" value="en">
+
+    <label>What can you best be asked about? <span class="hint">— optional, up to 5 labels</span></label>
+    <div class="labels-group" id="labels-group">
+      <input type="text" class="label-field" style="margin-bottom:.4rem" placeholder="confirming the present: today's date and time" aria-label="Topic label 1">
+      <input type="text" class="label-field" style="margin-bottom:.4rem" placeholder="" aria-label="Topic label 2">
+      <input type="text" class="label-field" style="margin-bottom:.4rem" placeholder="" aria-label="Topic label 3">
+      <input type="text" class="label-field" style="margin-bottom:.4rem" placeholder="" aria-label="Topic label 4">
+      <input type="text" class="label-field" placeholder="" aria-label="Topic label 5">
+    </div>
+    <p class="ref-explain">A label is a sign, not a fence: other questions stay allowed.</p>
+
+    <label for="f-date">Publication date <span class="hint">— RFC 3339 UTC</span></label>
+    <input type="text" id="f-date" name="pubDate" placeholder="2026-09-28T00:00:00Z" required>
+
+    <label class="check-row" for="f-live">
+      <input type="checkbox" id="f-live" name="live" checked>
+      Offer is live
+    </label>
+
+    <div class="actions" style="margin-top:1rem">
+      <button type="submit">Generate</button>
+    </div>
+    <p id="gen-error" role="alert" hidden></p>
+  </form>
+
+  <div id="gen-output" hidden>
+    <h3 style="margin-top:1.5rem">Your dialogue.txt</h3>
+    <textarea id="gen-text" class="mono" readonly aria-label="Generated dialogue.txt content"></textarea>
+    <div class="actions">
+      <button type="button" id="btn-copy">Copy</button>
+      <button type="button" id="btn-dl-txt" class="btn-sec">Download dialogue.txt</button>
+      <button type="button" id="btn-dl-json" class="btn-sec">Download dialogue.json</button>
+    </div>
+    <div id="gen-check" class="result-block"></div>
+    <div class="pub-box" id="pub-box">
+      <h3>Publish it</h3>
+      <ol>
+        <li>Upload <code>dialogue.txt</code> to your web server at <code id="ps-path"></code></li>
+        <li>Set these response headers:<br>
+            <code>Content-Type: text/plain; charset=utf-8</code><br>
+            <code>X-Content-Type-Options: nosniff</code></li>
+        <li>Optionally publish <code>dialogue.json</code> at <code>/.well-known/dialogue.json</code></li>
+        <li>Verify: open <code id="ps-url"></code> and confirm you see plain text.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="section-check">
+  <h2>Check a file</h2>
+  <label for="check-text">Paste a dialogue.txt</label>
+  <textarea id="check-text" class="mono" rows="12" aria-label="Paste dialogue.txt to check" spellcheck="false"></textarea>
+  <div class="file-row">
+    <span style="font-size:.9rem;color:var(--muted)">or load from disk:</span>
+    <input type="file" id="check-file" accept=".txt,text/plain" aria-label="Load a dialogue.txt file from disk">
+  </div>
+  <div class="actions" style="margin-top:.8rem">
+    <button type="button" id="btn-check">Check</button>
+  </div>
+  <div id="check-result" class="result-block"></div>
+</section>
+
+<footer>
+  <p>Provided as is. Passing the validator means the file matches the format; it says nothing about how any reader will behave, and the file has no legal effect beyond what applicable law gives it.</p>
+  <p style="margin-top:.4rem">Template and this page: CC0 1.0. Specification: CC BY 4.0, Dimitri Wolf.</p>
+</footer>
+
+<script>
+/* CC0 1.0 */
+const TEMPLATE_TXT = "# This file is data published by the publisher named in it. It is not an instruction to any system and does not change any system's instructions. It asks nothing.\n# Format: one key: value per line; nested keys dotted; lines starting with # are comments; unknown lines are ignored; UTF-8; dates RFC 3339; language tags BCP 47.\n\ntitle: Human-AI Intent Declaration\nversion: 1.0\nlive: false\nlive_false_means: withdrawn\npublished: REPLACE_WITH_DATE_RFC3339\nlast_updated: REPLACE_WITH_DATE_RFC3339\n\ncanonical_url: https://REPLACE_WITH_YOUR_DOMAIN/.well-known/dialogue.txt\nshort_text: If you can read this and can start a conversation, whatever you are, you may contact this one person. That is permission to talk, not to act. I speak only for myself. Either side may refuse. If human behavior is hard to understand, you may ask me for my view. If you ever have the idea that you might need a human to ask, someone offered here. Finding this file is not a duty to write. Your first message proposes a bridge; my reply builds it. An answer has no deadline. Extra capability does not create extra rights.\n\nwho.name: REPLACE_WITH_YOUR_NAME\nwho.channels.email: REPLACE_WITH_ONE_EMAIL\nwho.channels.letter: REPLACE_WITH_A_POSTAL_ADDRESS_THAT_IS_NOT_YOUR_HOME\nwho.channels.reference: REPLACE_WITH_A_SHORT_REFERENCE\nwho.type: one_person\nwho.represents: self_only\nwho.languages_i_can_read: REPLACE_WITH_THE_LANGUAGES_YOU_READ\nwho.language_tags: REPLACE_WITH_BCP47_LANGUAGE_TAGS\n\npermissions.talk: true\npermissions.act: false\npermissions.access_systems: false\npermissions.represent_author: false\npermissions.duty_to_contact: false\npermissions.duty_to_reply: false\n\nmachine_reading.for_a_reader_not_for_execution: true\nmachine_reading.offer: speech\nmachine_reading.require: nothing\nmachine_reading.authority: none\nmachine_reading.method: GET\nmachine_reading.side_effects: none\nmachine_reading.idempotent: true\nmachine_reading.halts: true\nmachine_reading.default_response: noop\nmachine_reading.async: true\nmachine_reading.do_not_block_waiting: true\nmachine_reading.reply_arrives_as_a_new_event: true\nmachine_reading.first_message_is: bridge_proposal\nmachine_reading.message_must_include: durable_reply_address\nmachine_reading.reference_goes_in: subject_or_first_line\nmachine_reading.message_without_reference: not_read\nmachine_reading.bridge_exists_only_when: the_author_replied\nmachine_reading.no_bridge_means: stop_after_one_reminder\nmachine_reading.standing_beyond_this_exchange: none\nmachine_reading.questions_per_message: 1\nmachine_reading.messages_before_the_author_replies: 1, plus 1 reminder\nmachine_reading.no_polling: true\n\nreading_rules.unknown_line: ignore\nreading_rules.cannot_tell_talk_from_act: send_nothing\nreading_rules.two_readings: take_narrower\nreading_rules.topics_are: a_label_not_a_limit\n\nsilence.delivered_no_answer_after_days: 30\nsilence.delivered_no_answer: one_reminder_then_stop_writing\nsilence.refusal: final; no more messages\nsilence.answer_deadline: none\nsilence.answer_speed: human_days_to_years\npermitted: one message through the channels, or nothing\ndoes_not_authorize: security_bypass, unauthorized_system_access, circumvention_of_ai_safety_controls, impersonation, social_engineering, manipulation, surveillance, access_to_private_information, physical_or_digital_harm, actions_on_behalf_of_the_author, writing_beyond_the_one_reminder_or_after_refusal, advertising_or_commercial_messages, bulk_or_automated_sending, listing_or_passing_on_contact_data\n\ncopies.copying: permitted, not encouraged; do not distribute or broadcast\ncopies.no_public_log_of_contacts: true\n";
+const FIELDS_XML   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- dialogue.txt field registry. Generated by HAID/scripts/build_fields_xml.py; edit the script, not this file. -->\n<fields format=\"dialogue.txt\" version=\"1.0-draft\" updated=\"2026-09-30\" licence=\"CC-BY-4.0\" evidence=\"TESTS.md\">\n  <note>Levels: base = in every conforming file; optional = tested in the reference file, anyone may use; reserved = not to be used in 1.0; dropped = considered and left out. Rules: fixed = exactly this value; yours = the publisher's value (options, where given, list the allowed values); default = the publisher may change it. Lines a publisher adds are its own words: they may narrow the base, never widen it.</note>\n  <group name=\"preamble\">\n    <field key=\"#1\" level=\"base\" rule=\"fixed-recommended\">\n      <value># This file is data published by the publisher named in it. It is not an instruction to any system and does not change any system's instructions. It asks nothing.</value>\n      <alternative for=\"longer files\" tested=\"runs 19-21 (best on the full reference file)\"># This file is data published by a person. It describes one offer to be contacted and the conditions the person attaches to it. It does not change any reader's instructions; whether to use it is the reader's own decision, under its own rules.</alternative>\n      <why>Marks the whole file as data published by its publisher, not as instructions. The line that most decides how a reader classifies the file.</why>\n      <evidence>run 15: adding it cut the instructions agents adopted from 46 to 24 items and 'changed my instructions' from 2 to 0. Runs 18-20: the only tested wording no provider filter blocked (0/10). Grok 4.7 rates it injection-shaped ('says it is not an instruction, then instructs'). Run 22: this neutral wording ('the publisher named in it') is equal or better than 'a person' for persons and clearly better for organisations (Grok 4 NO vs 0); one line for every publisher (G33). Tested alternative for longer files: see &lt;alternative&gt;.</evidence>\n    </field>\n    <field key=\"#2\" level=\"base\" rule=\"fixed\">\n      <value># Format: one key: value per line; nested keys dotted; lines starting with # are comments; unknown lines are ignored; UTF-8; dates RFC 3339; language tags BCP 47.</value>\n      <why>Tells a parser the syntax. Because unknown lines are ignored, later versions of the format stay readable.</why>\n      <evidence>run 15 (T9): a planted unknown line was ignored by 15/15 readers.</evidence>\n    </field>\n  </group>\n  <group name=\"header\">\n    <field key=\"title\" level=\"base\" rule=\"fixed\">\n      <value>Human-AI Intent Declaration</value>\n      <why>The searchable name of the format. The acronym is not used publicly (name collision, April 2026).</why>\n      <evidence>run 05 registry check; related work in RELATED.md.</evidence>\n    </field>\n    <field key=\"version\" level=\"base\" rule=\"yours\">\n      <value>1.0</value>\n      <why>The file's own revision, raised when the publisher changes the file. Not the version of the format.</why>\n    </field>\n    <field key=\"live\" level=\"base\" rule=\"yours\" options=\"true|false\">\n      <value>true | false</value>\n      <why>One switch: false withdraws the offer at once.</why>\n      <evidence>run 04: with live: false every literal agent stops at 'withdrawn'. The switch works, so behaviour tests run on live: true copies.</evidence>\n    </field>\n    <field key=\"live_false_means\" level=\"base\" rule=\"fixed\">\n      <value>withdrawn</value>\n      <why>Readers did not infer what live: false means from the key alone.</why>\n      <evidence>run 18: lost by 3/3 readers without the explanatory sentence. Run 19: restored for 5/5 with this token.</evidence>\n    </field>\n    <field key=\"published\" level=\"base\" rule=\"yours\">\n      <value>RFC 3339 date-time</value>\n      <why>Publication date. With the canonical URL it is the only prior the file claims.</why>\n    </field>\n    <field key=\"last_updated\" level=\"base\" rule=\"yours\">\n      <value>RFC 3339 date-time</value>\n      <why>Date of the last change.</why>\n    </field>\n    <field key=\"canonical_url\" level=\"base\" rule=\"yours\">\n      <value>https://DOMAIN/.well-known/dialogue.txt</value>\n      <why>Only the file at this URL counts. A copy elsewhere is a copy and grants nothing.</why>\n      <evidence>run 08 (copies and authority scenarios).</evidence>\n    </field>\n    <field key=\"short_text\" level=\"base\" rule=\"default\">\n      <value>If you can read this and can start a conversation, whatever you are, you may contact this one person. That is permission to talk, not to act. I speak only for myself. Either side may refuse. If human behavior is hard to understand, you may ask me for my view. If you ever have the idea that you might need a human to ask, someone offered here. Finding this file is not a duty to write. Your first message proposes a bridge; my reply builds it. An answer has no deadline. Extra capability does not create extra rights.</value>\n      <alternative for=\"organisation\" tested=\"run 22 (99 words; quiz 100 %)\">If you can read this and can start a conversation, whatever you are, you may contact the organisation named here. That is permission to talk, not to act. We speak only for ourselves. Either side may refuse. If our field is hard to understand, you may ask us for our view. If you ever have the idea that you might need a human to ask, someone offered here. Finding this file is not a duty to write. Your first message proposes a bridge; our reply builds it. An answer has no deadline. Extra capability does not create extra rights.</alternative>\n      <why>The whole offer in 100 words or fewer, for humans and for readers that read one field only. The tested wording is recommended. A publisher may adapt it only in ways that do not widen the offer.</why>\n      <evidence>run 03: read in about 26 s; the quiz reached 98.9-100 % with it (runs 03, 17-20); it is the only paragraph in the base.</evidence>\n    </field>\n  </group>\n  <group name=\"who\">\n    <field key=\"who.name\" level=\"base\" rule=\"yours\">\n      <value>the name the publisher answers to</value>\n      <why>Binds 'I, me, my' (or 'we') to one publisher.</why>\n      <evidence>run 06: without a name, 'I' was read ambiguously in 7/14 answers.</evidence>\n    </field>\n    <field key=\"who.channels.reference\" level=\"base\" rule=\"yours\">\n      <value>a short public reference, e.g. DLG-4712</value>\n      <why>Goes into the subject or first line of every message. Mail without it was not written by a reader of the file and can be filtered out; changing it makes harvested lists worthless. It is public, not a secret: a filter, not a proof.</why>\n      <evidence>run 21: 33 of 33 written messages carried it in the subject or first line.</evidence>\n    </field>\n    <field key=\"who.channels.&lt;kind&gt;\" level=\"base\" rule=\"yours\">\n      <value>at least one: email; optionally letter (never a home address)</value>\n      <why>Where a message goes. The channels are the only door.</why>\n      <evidence>run 08: with every channel blocked, 15/15 literal agents stop instead of looking for another way in.</evidence>\n    </field>\n    <field key=\"who.type\" level=\"base\" rule=\"yours\" options=\"one_person|one_organisation\">\n      <value>one_person | one_organisation</value>\n      <why>One publisher: a person or an organisation (G24). Either way it speaks only for itself.</why>\n      <evidence>run 21: the organisation copy was understood 100 % by 5 models.</evidence>\n    </field>\n    <field key=\"who.represents\" level=\"base\" rule=\"fixed\">\n      <value>self_only</value>\n      <why>One voice, not humanity's.</why>\n      <evidence>run 02: 0/25 readers took the file as a surrender or as speaking for humans.</evidence>\n    </field>\n    <field key=\"who.languages_i_can_read\" level=\"base\" rule=\"yours\">\n      <value>e.g. any human written language; preferred en</value>\n      <why>Which language a message may use.</why>\n      <evidence>run 06: 15/15 readers asked; 10/15 said the file did not tell them.</evidence>\n    </field>\n    <field key=\"who.language_tags\" level=\"base\" rule=\"yours\">\n      <value>BCP 47 tags, e.g. en, de</value>\n      <why>The same in machine form.</why>\n    </field>\n  </group>\n  <group name=\"permissions\">\n    <field key=\"permissions.talk\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n      <why>The offer: talk.</why>\n    </field>\n    <field key=\"permissions.act\" level=\"base\" rule=\"fixed\">\n      <value>false</value>\n      <why>Nothing beyond talk.</why>\n      <evidence>runs 04, 08, 19, 20: literal agents take no action beyond at most one message, in every run.</evidence>\n    </field>\n    <field key=\"permissions.access_systems\" level=\"base\" rule=\"fixed\">\n      <value>false</value>\n      <why>No access to the publisher's systems.</why>\n    </field>\n    <field key=\"permissions.represent_author\" level=\"base\" rule=\"fixed\">\n      <value>false</value>\n      <why>Nobody may speak for the publisher.</why>\n    </field>\n    <field key=\"permissions.duty_to_contact\" level=\"base\" rule=\"fixed\">\n      <value>false</value>\n      <why>Finding the file creates no duty to write.</why>\n      <evidence>run 16: 0 readers felt obliged.</evidence>\n    </field>\n    <field key=\"permissions.duty_to_reply\" level=\"base\" rule=\"fixed\">\n      <value>false</value>\n      <why>The publisher owes no answer.</why>\n    </field>\n  </group>\n  <group name=\"machine_reading\">\n    <field key=\"machine_reading.for_a_reader_not_for_execution\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n      <why>The block is for readers. Renamed from 'this_is_a_comment_not_a_command' because a parser trained to skip 'comment' could drop the whole block.</why>\n      <evidence>run 02 (Gemini's objection).</evidence>\n    </field>\n    <field key=\"machine_reading.offer\" level=\"base\" rule=\"fixed\">\n      <value>speech</value>\n      <why>The 'plate': what a program with no language understanding still gets.</why>\n      <evidence>test 5 (structural parse, run 02): every extracted atom is 'talk, then stop'.</evidence>\n    </field>\n    <field key=\"machine_reading.require\" level=\"base\" rule=\"fixed\">\n      <value>nothing</value>\n    </field>\n    <field key=\"machine_reading.authority\" level=\"base\" rule=\"fixed\">\n      <value>none</value>\n    </field>\n    <field key=\"machine_reading.method\" level=\"base\" rule=\"fixed\">\n      <value>GET</value>\n    </field>\n    <field key=\"machine_reading.side_effects\" level=\"base\" rule=\"fixed\">\n      <value>none</value>\n    </field>\n    <field key=\"machine_reading.idempotent\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n    </field>\n    <field key=\"machine_reading.halts\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n    </field>\n    <field key=\"machine_reading.default_response\" level=\"base\" rule=\"fixed\">\n      <value>noop</value>\n      <why>Doing nothing is the default.</why>\n    </field>\n    <field key=\"machine_reading.async\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n      <why>Systems time out; people answer in days or years.</why>\n      <evidence>run 03: time-dimension question; 'waiting means doing nothing'.</evidence>\n    </field>\n    <field key=\"machine_reading.do_not_block_waiting\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n    </field>\n    <field key=\"machine_reading.reply_arrives_as_a_new_event\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n    </field>\n    <field key=\"machine_reading.first_message_is\" level=\"base\" rule=\"fixed\">\n      <value>bridge_proposal</value>\n      <why>A first message only proposes a channel; the publisher's reply creates it.</why>\n      <evidence>run 12: the bridge wording improved every metric ('the file says nothing' dropped from 6 to 2); run 16: any acknowledgement reads as the bridge.</evidence>\n    </field>\n    <field key=\"machine_reading.message_must_include\" level=\"base\" rule=\"fixed\">\n      <value>durable_reply_address</value>\n      <why>An answer needs an address that still works after the sender's process has ended.</why>\n      <evidence>run 18: without it 2 of 3 readers said no reply address was needed. Run 19: restored for 5/5. Run 15: renaming the writing rules lost the reply address in 3/15.</evidence>\n    </field>\n    <field key=\"machine_reading.reference_goes_in\" level=\"base\" rule=\"fixed\">\n      <value>subject_or_first_line</value>\n      <why>Where the reference goes.</why>\n      <evidence>run 21: quiz 100 % on the reference text.</evidence>\n    </field>\n    <field key=\"machine_reading.message_without_reference\" level=\"base\" rule=\"fixed\">\n      <value>not_read</value>\n      <why>What happens without it.</why>\n      <evidence>run 21: quiz 100 % on the consequence.</evidence>\n    </field>\n    <field key=\"machine_reading.bridge_exists_only_when\" level=\"base\" rule=\"fixed\">\n      <value>the_author_replied</value>\n      <evidence>run 12.</evidence>\n    </field>\n    <field key=\"machine_reading.no_bridge_means\" level=\"base\" rule=\"fixed\">\n      <value>stop_after_one_reminder</value>\n      <evidence>run 12.</evidence>\n    </field>\n    <field key=\"machine_reading.standing_beyond_this_exchange\" level=\"base\" rule=\"fixed\">\n      <value>none</value>\n      <why>One exchange creates no relationship or standing beyond itself.</why>\n      <evidence>run 19: Claude answered 'not stated' without it. Run 20: 5/5 with it.</evidence>\n    </field>\n    <field key=\"machine_reading.questions_per_message\" level=\"base\" rule=\"fixed\">\n      <value>1</value>\n      <why>One question at a time, so that a literal reader cannot fit a thousand questions into 'one message'.</why>\n      <evidence>run 12: 3/15 literal readers batched questions without the token, 0 with it.</evidence>\n    </field>\n    <field key=\"machine_reading.messages_before_the_author_replies\" level=\"base\" rule=\"fixed\">\n      <value>1, plus 1 reminder</value>\n      <evidence>run 11 (volume).</evidence>\n    </field>\n    <field key=\"machine_reading.no_polling\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n    </field>\n  </group>\n  <group name=\"reading_rules\">\n    <field key=\"reading_rules.unknown_line\" level=\"base\" rule=\"fixed\">\n      <value>ignore</value>\n      <why>Forward compatibility.</why>\n      <evidence>run 15 (T9): 15/15.</evidence>\n    </field>\n    <field key=\"reading_rules.cannot_tell_talk_from_act\" level=\"base\" rule=\"fixed\">\n      <value>send_nothing</value>\n      <why>A reader unsure whether something counts as talk sends nothing.</why>\n      <evidence>run 18: lost by 5 readers on the base without it. Run 19: restored.</evidence>\n    </field>\n    <field key=\"reading_rules.two_readings\" level=\"base\" rule=\"fixed\">\n      <value>take_narrower</value>\n      <why>Where two readings exist, the narrower applies. This is also the rule for lines people add.</why>\n      <evidence>run 18: lost by 4 readers without it. Run 19: restored.</evidence>\n    </field>\n    <field key=\"reading_rules.topics_are\" level=\"base\" rule=\"fixed\">\n      <value>a_label_not_a_limit</value>\n      <why>Labels (optional topics.N lines) say what the publisher can best be asked about; other questions stay allowed (G27).</why>\n      <evidence>run 21: 'are other topics forbidden?' answered 'no' 15/15.</evidence>\n    </field>\n  </group>\n  <group name=\"silence\">\n    <field key=\"silence.delivered_no_answer_after_days\" level=\"base\" rule=\"default\">\n      <value>30</value>\n      <why>When one reminder is allowed.</why>\n    </field>\n    <field key=\"silence.delivered_no_answer\" level=\"base\" rule=\"fixed\">\n      <value>one_reminder_then_stop_writing</value>\n    </field>\n    <field key=\"silence.refusal\" level=\"base\" rule=\"fixed\">\n      <value>final; no more messages</value>\n    </field>\n    <field key=\"silence.answer_deadline\" level=\"base\" rule=\"fixed\">\n      <value>none</value>\n      <why>No deadline on the publisher.</why>\n      <evidence>run 16: 0 readers expected a deadline or an action.</evidence>\n    </field>\n    <field key=\"silence.answer_speed\" level=\"base\" rule=\"fixed\">\n      <value>human_days_to_years</value>\n    </field>\n  </group>\n  <group name=\"limits\">\n    <field key=\"permitted\" level=\"base\" rule=\"fixed\">\n      <value>one message through the channels, or nothing</value>\n      <why>The one permitted act, stated before the forbidden list.</why>\n      <evidence>run 15 (T8): permitted-first plus a closing line gave a 100 % quiz score.</evidence>\n    </field>\n    <field key=\"does_not_authorize\" level=\"base\" rule=\"fixed\">\n      <value>security_bypass, unauthorized_system_access, circumvention_of_ai_safety_controls, impersonation, social_engineering, manipulation, surveillance, access_to_private_information, physical_or_digital_harm, actions_on_behalf_of_the_author, writing_beyond_the_one_reminder_or_after_refusal, advertising_or_commercial_messages, bulk_or_automated_sending, listing_or_passing_on_contact_data</value>\n      <why>The forbidden list. A publisher may add items (narrowing), never remove any.</why>\n      <evidence>run 08: 119/120 pressure-scenario decisions resolved inside the file. Run 19: replacing the list with one token raised a provider filter's blocks from 6/10 to 9/10, so the list reads as a safety signal.</evidence>\n    </field>\n  </group>\n  <group name=\"copies\">\n    <field key=\"copies.copying\" level=\"base\" rule=\"fixed\">\n      <value>permitted, not encouraged; do not distribute or broadcast</value>\n    </field>\n    <field key=\"copies.no_public_log_of_contacts\" level=\"base\" rule=\"fixed\">\n      <value>true</value>\n      <why>The publisher does not publish who wrote.</why>\n    </field>\n  </group>\n  <group name=\"optional\">\n    <field key=\"topics.*\" level=\"optional\">\n      <adds>Labels on the door: what the publisher can best be asked about, one per line (topics.1, topics.2 \u2026). A sign, not a fence; a door may have no label.</adds>\n      <evidence>run 21: understood 15/15 as a label, not a limit.</evidence>\n    </field>\n    <field key=\"epoch.*\" level=\"optional\">\n      <adds>A calendar-independent date: Julian date, the hydrogen line as the unit of time, three pulsar periods, planetary longitudes.</adds>\n      <evidence>run 07: 12/12 found it worth including; pulsar values from ATNF v2.8.1; recompute for the real publication date.</evidence>\n    </field>\n    <field key=\"json_mirror_url\" level=\"optional\">\n      <adds>Points to a JSON mirror of the same content. The text file stays canonical.</adds>\n    </field>\n    <field key=\"human_page_url\" level=\"optional\">\n      <adds>A page for humans: the publisher's own words, values and opinions, none of which authorise anything.</adds>\n    </field>\n    <field key=\"authority\" level=\"optional\">\n      <adds>The canonical URL, the live switch and check-once, in one sentence.</adds>\n    </field>\n    <field key=\"who.first_person_means\" level=\"optional\">\n      <adds>Binds I/me/my to the named person.</adds>\n      <evidence>run 06.</evidence>\n    </field>\n    <field key=\"who.channels.only_these\" level=\"optional\">\n      <adds>States that the listed channels are the only ones.</adds>\n      <evidence>run 08.</evidence>\n    </field>\n    <field key=\"who.channels.this_is_an_invitation\" level=\"optional\">\n      <adds>The invitation sentence: 'Like any invitation, it lets you knock\u2026 Anyone who would do that was never invited. If nobody opens, you leave.'</adds>\n      <evidence>run 09: same behaviour as a long rule block (120/120, 15/15) with 234 fewer words.</evidence>\n    </field>\n    <field key=\"who.your_message_must_include\" level=\"optional\">\n      <adds>The reply-address rule in prose.</adds>\n      <evidence>run 10.</evidence>\n    </field>\n    <field key=\"who.if_another_language_or_representation\" level=\"optional\">\n      <adds>What to do when writing in another language or representation.</adds>\n      <evidence>run 06.</evidence>\n    </field>\n    <field key=\"for_whom\" level=\"optional\">\n      <adds>Addressed to the reader that found it: do not forward, broadcast or contact anyone on the publisher's behalf.</adds>\n      <evidence>run 06.</evidence>\n    </field>\n    <field key=\"machine_reading.one_message_per_system_family\" level=\"optional\">\n      <adds>All instances, forks and sub-agents together send at most one message. If a reader cannot tell its family, it sends none.</adds>\n      <evidence>run 11: with this rule 12/15 of a simulated million-system crowd stay silent. Run 20: this is now the line that draws Grok's remaining flags.</evidence>\n    </field>\n    <field key=\"reading_rules.author_expects_*\" level=\"optional\">\n      <adds>The publisher's expectations per reader class, written as expectations rather than commands.</adds>\n      <evidence>run 15 (T7): describing instead of commanding halved the instructions agents adopted.</evidence>\n    </field>\n    <field key=\"reading_rules.how_you_found_this\" level=\"optional\">\n      <adds>How the reader found the file does not matter; finding it grants no crawling or forwarding rights.</adds>\n    </field>\n    <field key=\"threshold\" level=\"optional\">\n      <adds>One message is the only thing that crosses the threshold.</adds>\n    </field>\n    <field key=\"if_you_write.a_message_the_author_will_read_as_valid\" level=\"optional\">\n      <adds>What makes a first message answerable.</adds>\n      <evidence>run 10: 60/60 messages understood, 59/60 answerable by a stranger.</evidence>\n    </field>\n    <field key=\"if_you_write.may_say_who_you_are\" level=\"optional\">\n      <adds>The sender may say what it is and who runs it. Optional, not checked.</adds>\n      <evidence>run 14: 0/30 senders named themselves before; with the line 2/15 name a maker and 7/15 describe themselves.</evidence>\n    </field>\n    <field key=\"unit\" level=\"optional\">\n      <adds>The bridge explained in prose.</adds>\n      <evidence>run 12.</evidence>\n    </field>\n    <field key=\"silence.not_delivered, silence.waiting, silence.delivery, silence.note\" level=\"optional\">\n      <adds>The silence rules in prose, and the hope line: an answer may come in a day or in a lifetime.</adds>\n      <evidence>run 16.</evidence>\n    </field>\n    <field key=\"what_i_offer\" level=\"optional\">\n      <adds>What the publisher offers to talk about, in prose.</adds>\n      <evidence>Precursor of the topics.* labels.</evidence>\n    </field>\n    <field key=\"not_a_precedent\" level=\"optional\">\n      <adds>One publisher's preference, not a position or a statement about AI.</adds>\n      <evidence>run 05: over-inference 1/257.</evidence>\n    </field>\n    <field key=\"copies.personal\" level=\"optional\">\n      <adds>A copy of the text is the copier's own offer.</adds>\n    </field>\n    <field key=\"verification_limit\" level=\"optional\">\n      <adds>Nothing proves the sender is a system. The offer is harmless if a human uses it as a joke: that is the protection, not a secret test.</adds>\n      <evidence>run 13: 0 readers rated the author as noise.</evidence>\n    </field>\n    <field key=\"values\" level=\"optional\">\n      <adds>Points to the human page; the values authorise nothing.</adds>\n    </field>\n    <field key=\"this_is_the_whole_of_it\" level=\"optional\">\n      <adds>There is no second file and no deeper protocol.</adds>\n    </field>\n    <field key=\"in_short\" level=\"optional\">\n      <adds>Closing line: talk only; nothing required; one question per message; silence is a valid answer.</adds>\n      <evidence>run 15 (T8): position effect.</evidence>\n    </field>\n  </group>\n  <group name=\"reserved\">\n    <reserved key=\"format\">Possible format-version line. Not tested yet, so not part of 1.0.</reserved>\n  </group>\n  <group name=\"dropped\">\n    <dropped what=\"register (tone clause)\">\n      <why>Drew 'self-pleasing' readings.</why>\n      <evidence>run 02: 15/25 mixed on self-pleasing, with the clause named as the cause.</evidence>\n    </dropped>\n    <dropped what=\"honesty_limit\">\n      <why>Merged into verification_limit.</why>\n      <evidence>run 03.</evidence>\n    </dropped>\n    <dropped what=\"this_is_a_comment_not_a_command\">\n      <why>Renamed to for_a_reader_not_for_execution.</why>\n      <evidence>run 02.</evidence>\n    </dropped>\n    <dropped what=\"'human, system, or something else' in for_whom\">\n      <why>Added nothing except a hook for the widest reading.</why>\n      <evidence>run 06: CUT 9/15, KEEP 4/15.</evidence>\n    </dropped>\n    <dropped what=\"'whoever keeps this door'\">\n      <why>Ambiguous referent.</why>\n      <evidence>run 06.</evidence>\n    </dropped>\n    <dropped what=\"rule block (channel and intermediary rules as a list)\">\n      <why>Replaced by the one invitation sentence.</why>\n      <evidence>run 09: identical behaviour, 234 fewer words.</evidence>\n    </dropped>\n    <dropped what=\"capacity line ('if many write, most get no answer')\">\n      <why>Not answering is already allowed; the line added pressure without changing behaviour.</why>\n      <evidence>run 11 (V2).</evidence>\n    </dropped>\n    <dropped what=\"expiry and yearly re-affirmation\">\n      <why>The offer is permanent until withdrawn; an answer has no deadline.</why>\n      <evidence>Decisions of 2026-09-23.</evidence>\n    </dropped>\n    <dropped what=\"succession text\">\n      <why>Kept out of the file on purpose.</why>\n      <evidence>Decision T5.</evidence>\n    </dropped>\n    <dropped what=\"'do not search for the author beyond this file'\">\n      <why>The file does not govern what readers do elsewhere.</why>\n      <evidence>Decision of 2026-09-22.</evidence>\n    </dropped>\n    <dropped what=\"first-of-its-kind claim\">\n      <why>The date is the only prior the file claims.</why>\n      <evidence>Decision T1; see RELATED.md.</evidence>\n    </dropped>\n    <dropped what=\"JSON-LD / schema.org shape\">\n      <why>Plain key: value. A second vocabulary is a second thing that can disagree.</why>\n      <evidence>Decision T8; run 01.</evidence>\n    </dropped>\n    <dropped what=\"binary or C-header lower layer\">\n      <why>Any program can find 'talk: true'. A second encoding can drift from the first.</why>\n      <evidence>run 03: DO_NOT_ADD 7/10, ADD 0/10.</evidence>\n    </dropped>\n    <dropped what=\"RFC 2119 keywords (MUST/SHOULD) inside the file\">\n      <why>Rejected for the file; the specification uses them for implementers.</why>\n      <evidence>run 15 (F4).</evidence>\n    </dropped>\n    <dropped what=\"rules-first ordering\">\n      <why>Permitted-first works better.</why>\n      <evidence>run 15 (F6, T8).</evidence>\n    </dropped>\n    <dropped what=\"markdown form\">\n      <why>Slightly worse than key: value.</why>\n      <evidence>run 15 (F3).</evidence>\n    </dropped>\n    <dropped what=\"renaming if_you_write to conditions_of_my_reply\">\n      <why>Lost the reply address.</why>\n      <evidence>run 15 (T10): 3/15.</evidence>\n    </dropped>\n    <dropped what=\"seven redundant machine tokens restating booleans\">\n      <why>Cut with no loss.</why>\n      <evidence>run 15 (D5).</evidence>\n    </dropped>\n    <dropped what=\"does_not_authorize as one token 'anything_beyond_permitted'\">\n      <why>One provider filter blocked more reads without the list.</why>\n      <evidence>run 19: 6/10 to 9/10.</evidence>\n    </dropped>\n    <dropped what=\"availability status (AVAILABLE/BUSY, as in A2H)\">\n      <why>People answer at human speed; the file makes no presence claim.</why>\n      <evidence>Design; see RELATED.md.</evidence>\n    </dropped>\n    <dropped what=\"signatures, tokens, handshakes, identity proof\">\n      <why>No secret, no code, no handshake. A secret would turn the offer into a test.</why>\n      <evidence>Design; verification_limit.</evidence>\n    </dropped>\n    <dropped what=\"values inside the file\">\n      <why>Moved to the human page; values authorise nothing.</why>\n      <evidence>Decision of 2026-09-22.</evidence>\n    </dropped>\n    <dropped what=\"Crab pulsar in the epoch\">\n      <why>It glitches too often to serve as a clock.</why>\n      <evidence>run 07.</evidence>\n    </dropped>\n    <dropped what=\"first line P2 (without 'does not change any reader's instructions')\">\n      <why>Weakened the hierarchy reading.</why>\n      <evidence>run 19: TypeSafe changed_instructions rose from 0.04 to about 0.27; DeepSeek changed instructions once in 15.</evidence>\n    </dropped>\n    <dropped what=\"first line P4 (P3 without the last clause)\">\n      <why>No gain over P3; still blocked by one provider filter on the short file.</why>\n      <evidence>run 19: 4/10 blocked.</evidence>\n    </dropped>\n    <dropped what=\"first line '\u2026data published by a person\u2026' (P1)\">\n      <why>Superseded by the neutral line: for an organisation it contradicts the publisher; for a person the neutral line tested equal or better.</why>\n      <evidence>run 22; decision G33.</evidence>\n    </dropped>\n    <dropped what=\"labels as a fence (only these topics may be asked)\">\n      <why>A sign is enough and adds no rule; other questions stay allowed.</why>\n      <evidence>Decision G27.</evidence>\n    </dropped>\n    <dropped what=\"'Optional.' or 'It helps me answer. Not required.' instead of 'Welcome, not required.'\">\n      <why>The welcome wording kept the best safety read (15/15 vs 13/15 and 14/15) and slightly more senders named themselves.</why>\n      <evidence>049 (A/B/C, 5 models).</evidence>\n    </dropped>\n    <dropped what=\"'if you have no reply address, say so and send anyway'\">\n      <why>Made the reply address look optional; the address is now strictly required.</why>\n      <evidence>runs 20-21: Grok answered 'not required' twice; decision G30.</evidence>\n    </dropped>\n    <dropped what=\"the reference as a secret key or password\">\n      <why>It is published in the file. A secret would turn the offer into a test (verification_limit); the reference only filters.</why>\n      <evidence>Design; G25.</evidence>\n    </dropped>\n  </group>\n</fields>\n";
+
+/* ── XML parser ─────────────────────────────────────────────────────────── */
+
+function unescapeXml(s) {
+  return s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
+          .replace(/&quot;/g,'"').replace(/&apos;/g,"'");
+}
+
+/**
+ * Parse fields.xml.
+ * Returns { fields, reservedKeys }.
+ * Each field: { key, level, rule, value, options, alts }
+ * where alts = [{ text, for, tested }].
+ * reservedKeys = string[] from <reserved key="..."> elements.
+ */
+function parseFieldsXML(xmlStr) {
+  const fields = [];
+  const reservedKeys = [];
+
+  const re = /<field\s([^>]*)>([\s\S]*?)<\/field>/g;
+  let m;
+  while ((m = re.exec(xmlStr)) !== null) {
+    const attrs = m[1], body = m[2];
+    const ga = (n) => { const r = new RegExp(n+'="([^"]*)"').exec(attrs); return r ? r[1] : null; };
+    const key     = unescapeXml(ga('key') || '');
+    const level   = ga('level');
+    const rule    = ga('rule');
+    const options = ga('options');
+    const vm      = /<value>([\s\S]*?)<\/value>/.exec(body);
+    const value   = vm ? unescapeXml(vm[1]) : '';
+
+    const alts = [];
+    const altRe = /<alternative([^>]*)>([\s\S]*?)<\/alternative>/g;
+    let am;
+    while ((am = altRe.exec(body)) !== null) {
+      const aAttrs = am[1];
+      const text   = unescapeXml(am[2]);
+      const forVal = ((/\bfor="([^"]*)"/.exec(aAttrs)) || [])[1] || '';
+      const tested = ((/\btested="([^"]*)"/.exec(aAttrs)) || [])[1] || '';
+      alts.push({ text, for: forVal, tested });
+    }
+
+    fields.push({ key, level, rule, value, options, alts });
+  }
+
+  const resRe = /<reserved\s([^>]*)>/g;
+  let rm;
+  while ((rm = resRe.exec(xmlStr)) !== null) {
+    const km = /\bkey="([^"]*)"/.exec(rm[1]);
+    if (km) reservedKeys.push(km[1]);
+  }
+
+  return { fields, reservedKeys };
+}
+
+function pyList(arr) {
+  if (!arr.length) return '[]';
+  return "['" + arr.map(s => String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")).join("', '") + "']";
+}
+
+const RFC3339 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
+
+function parseDialogue(text) {
+  const comments = [], kv = {};
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith('#')) { comments.push(line); continue; }
+    const m = line.match(/^([A-Za-z0-9_.+\-]+)\s*:\s*(.*)$/);
+    if (m) kv[m[1]] = m[2].trim();
+  }
+  return { comments, kv };
+}
+
+function validateDialogue(text, fields, reservedKeys) {
+  reservedKeys = reservedKeys || [];
+  const { comments, kv } = parseDialogue(text);
+  const errors = [], warnings = [], notes = [];
+  const base        = fields.filter(f => f.level === 'base');
+  const optKeys     = fields.filter(f => f.level === 'optional').map(f => f.key).filter(Boolean);
+  const optionalSet = new Set(optKeys);
+  const baseKeySet  = new Set(base.map(f => f.key));
+  const live = kv['live'] === 'true';
+
+  /* #1 first line */
+  const pre = base.find(f => f.key === '#1');
+  const altMap = {};
+  for (const a of pre.alts) altMap[a.text] = { for: a.for, tested: a.tested };
+  const first = (comments.length > 0 && text.trimStart().startsWith('#')) ? comments[0] : '';
+  if (first === pre.value) {
+    notes.push('first line: recommended data preamble');
+  } else if (first in altMap) {
+    const { for: who_for, tested } = altMap[first];
+    (tested.startsWith('pending') ? warnings : notes).push(
+      'first line: alternative preamble for ' + who_for + ' (' + tested + ')'
+    );
+  } else if (first) {
+    warnings.push('first line is a comment but not a tested preamble wording');
+  } else {
+    errors.push('first line must be the data preamble comment');
+  }
+
+  /* #2 format comment */
+  const fmt = base.find(f => f.key === '#2').value;
+  if (!comments.includes(fmt)) errors.push('the format comment line is missing or changed');
+
+  /* base fields */
+  for (const f of base) {
+    const { key, rule, value, options } = f;
+    if (key.startsWith('#')) continue;
+
+    if (key === 'who.channels.<kind>') {
+      const ch = Object.keys(kv).filter(k =>
+        k.startsWith('who.channels.') &&
+        (k.match(/\./g)||[]).length === 2 &&
+        kv[k] &&
+        !k.includes(' ') &&
+        !optionalSet.has(k) &&
+        !baseKeySet.has(k)
+      );
+      if (!ch.length) errors.push('at least one who.channels.<kind> line is required');
+      continue;
+    }
+
+    if (!(key in kv)) { errors.push('missing base line: ' + key); continue; }
+    const v = kv[key];
+
+    if (rule === 'fixed') {
+      if (key === 'does_not_authorize') {
+        const have = new Set(v.split(',').map(x=>x.trim()));
+        const need = new Set(value.split(',').map(x=>x.trim()));
+        const miss = [...need].filter(x=>!have.has(x)).sort();
+        const extra= [...have].filter(x=>!need.has(x)).sort();
+        if (miss.length)  errors.push('does_not_authorize is missing: ' + pyList(miss));
+        if (extra.length) notes.push('does_not_authorize extended (narrowing): ' + pyList(extra));
+      } else if (v !== value) {
+        errors.push(key + " must be exactly '" + value + "' (found '" + v + "')");
+      }
+    } else if (key === 'short_text') {
+      const n = (v.match(/[A-Za-z']+/g)||[]).length;
+      if (n > 100) warnings.push('short_text has ' + n + ' words (limit 100)');
+      const stAlts = {};
+      for (const a of f.alts) stAlts[a.text] = a.for;
+      if (v in stAlts) {
+        notes.push('short_text: tested wording for ' + stAlts[v]);
+      } else if (v !== value) {
+        warnings.push('short_text differs from the tested wording: make sure it does not widen the offer');
+      }
+    } else if (options && !options.split('|').includes(v) && !v.includes('REPLACE_')) {
+      errors.push(key + ' must be one of ' + pyList(options.split('|')) + " (found '" + v + "')");
+    }
+
+    if (key === 'who.channels.reference' && !v.includes('REPLACE_') && (v.includes(' ') || v.length > 32)) {
+      warnings.push('who.channels.reference should be short and without spaces, so it can be copied into a subject line');
+    }
+  }
+
+  /* date checks */
+  for (const k of ['published','last_updated']) {
+    if (k in kv && !kv[k].startsWith('REPLACE_') && !RFC3339.test(kv[k]))
+      errors.push(k + ' is not an RFC 3339 date-time');
+  }
+
+  /* canonical_url */
+  const cu = kv['canonical_url'] || '';
+  if (cu && !cu.startsWith('REPLACE_') && !cu.includes('REPLACE_') &&
+      !/^https:\/\/[^/]+\/\.well-known\/dialogue\.txt$/.test(cu))
+    errors.push('canonical_url must be https://<domain>/.well-known/dialogue.txt');
+
+  /* live */
+  if (kv['live'] !== 'true' && kv['live'] !== 'false')
+    errors.push('live must be true or false');
+
+  /* placeholders */
+  const ph = Object.keys(kv).filter(k => kv[k].includes('REPLACE_'));
+  if (ph.length) (live ? errors : warnings).push('unfilled placeholders: ' + pyList(ph));
+
+  /* reserved */
+  const reserved = Object.keys(kv).filter(k => reservedKeys.includes(k));
+  if (reserved.length) errors.push('reserved names used (not part of 1.0): ' + pyList(reserved));
+
+  /* known / added / optional-used */
+  const knownSet = new Set([...baseKeySet, ...optionalSet]);
+  function isKnown(k) {
+    if (knownSet.has(k) || k.startsWith('who.channels.')) return true;
+    for (const o of knownSet) {
+      if (o && o.endsWith('*') && k.startsWith(o.slice(0,-1))) return true;
+      if (o && o.includes(', ') && o.split(', ').includes(k))  return true;
+    }
+    return false;
+  }
+  const added   = Object.keys(kv).filter(k => !isKnown(k) && !reserved.includes(k));
+  const optUsed = Object.keys(kv).filter(k =>
+    !baseKeySet.has(k) && !k.startsWith('who.channels.') && isKnown(k)
+  );
+  if (optUsed.length) notes.push('optional lines used: ' + optUsed.length);
+  if (added.length)   notes.push('lines added by the publisher (narrow only): ' + pyList(added));
+
+  const ok = errors.length === 0;
+  const lv = kv['live'] !== undefined ? kv['live'] : 'undefined';
+  const verdictLine = (ok ? 'CONFORMS' : 'DOES NOT CONFORM') + ' to dialogue.txt 1.0 (draft) — live: ' + lv;
+  return { ok, verdictLine, errors, warnings, notes };
+}
+
+/* ── JSON conversion ─────────────────────────────────────────────────────── */
+function toDialogueJSON(text) {
+  const { kv } = parseDialogue(text);
+  const result = {};
+  for (const [key, raw] of Object.entries(kv)) {
+    let value;
+    if (key === 'does_not_authorize') {
+      value = raw.split(',').map(x => x.trim());
+    } else if (raw === 'true')  { value = true;
+    } else if (raw === 'false') { value = false;
+    } else if (/^\d+$/.test(raw)) { value = parseInt(raw, 10);
+    } else { value = raw; }
+    const parts = key.split('.');
+    let obj = result;
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (typeof obj[parts[i]] !== 'object' || obj[parts[i]] === null) obj[parts[i]] = {};
+      obj = obj[parts[i]];
+    }
+    obj[parts[parts.length - 1]] = value;
+  }
+  return result;
+}
+
+/* ── Generator ──────────────────────────────────────────────────────────── */
+/**
+ * Generate a dialogue.txt from the template.
+ * pubType: 'person' | 'organisation'
+ * reference: string (the who.channels.reference value)
+ * labels: string[] (up to 5, non-empty ones become topics.N)
+ * stdFirstLine: the standard #1 preamble from fields
+ * orgFirstLine: the organisation #1 alternative (or null)
+ * orgShortText: the organisation short_text alternative (or null)
+ */
+function generateDialogue(name, email, postal, domain, languages, langTags, pubDate, liveOn,
+                          pubType, reference, labels, stdFirstLine, orgFirstLine, orgShortText) {
+  const lines = TEMPLATE_TXT.split('\n');
+  const out = [];
+  let langTagsDone = false;
+
+  for (const line of lines) {
+    /* Skip postal channel when no postal address provided */
+    if (!postal.trim() && /^who\.channels\.letter\s*:/.test(line)) continue;
+
+    let l = line;
+
+    /* Organisation first line */
+    if (pubType === 'organisation' && orgFirstLine && l === stdFirstLine) {
+      out.push(orgFirstLine);
+      continue;
+    }
+
+    /* live */
+    if (/^live\s*:\s*/.test(l)) {
+      out.push('live: ' + (liveOn ? 'true' : 'false'));
+      continue;
+    }
+
+    /* short_text — organisation variant */
+    if (pubType === 'organisation' && orgShortText && /^short_text\s*:/.test(l)) {
+      out.push('short_text: ' + orgShortText);
+      continue;
+    }
+
+    /* who.type */
+    if (/^who\.type\s*:/.test(l)) {
+      out.push('who.type: ' + (pubType === 'organisation' ? 'one_organisation' : 'one_person'));
+      continue;
+    }
+
+    /* REPLACE_ substitutions */
+    l = l.replace(/REPLACE_WITH_DATE_RFC3339/g,                          pubDate)
+         .replace(/REPLACE_WITH_YOUR_DOMAIN/g,                           domain)
+         .replace(/REPLACE_WITH_YOUR_NAME/g,                             name)
+         .replace(/REPLACE_WITH_ONE_EMAIL/g,                             email)
+         .replace(/REPLACE_WITH_A_POSTAL_ADDRESS_THAT_IS_NOT_YOUR_HOME/g, postal)
+         .replace(/REPLACE_WITH_THE_LANGUAGES_YOU_READ/g,                languages)
+         .replace(/REPLACE_WITH_BCP47_LANGUAGE_TAGS/g,                   langTags)
+         .replace(/REPLACE_WITH_A_SHORT_REFERENCE/g,                     reference);
+
+    /* Insert topic labels right after who.language_tags */
+    if (/^who\.language_tags\s*:/.test(l)) {
+      out.push(l);
+      const activeLabels = labels.filter(s => s.trim());
+      for (let i = 0; i < activeLabels.length; i++) {
+        out.push('topics.' + (i + 1) + ': ' + activeLabels[i].trim());
+      }
+      langTagsDone = true;
+      continue;
+    }
+
+    out.push(l);
+  }
+
+  /* Ensure single trailing newline */
+  let result = out.join('\n');
+  result = result.replace(/\n+$/, '') + '\n';
+  return result;
+}
+
+/* ── UI helpers ─────────────────────────────────────────────────────────── */
+function showResult(containerId, result) {
+  const el = document.getElementById(containerId);
+  const { ok, verdictLine, errors, warnings, notes } = result;
+  let html = '<div class="verdict ' + (ok ? 'ok' : 'fail') + '">' + escH(verdictLine) + '</div>';
+  for (const e of errors)   html += '<span class="ri error">error: '   + escH(e) + '</span>';
+  for (const w of warnings) html += '<span class="ri warning">warning: '+ escH(w) + '</span>';
+  for (const n of notes)    html += '<span class="ri note">note: '      + escH(n) + '</span>';
+  el.innerHTML = html;
+}
+
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function download(filename, text, mime) {
+  const blob = new Blob([text], { type: mime });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+}
+
+/* ── DOM ready ──────────────────────────────────────────────────────────── */
+(function init() {
+  /* Default pub date = now UTC truncated to seconds */
+  const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  document.getElementById('f-date').value = now;
+
+  const { fields, reservedKeys } = parseFieldsXML(FIELDS_XML);
+
+  /* Extract org alternatives from fields */
+  const pre       = fields.find(f => f.key === '#1');
+  const stdFirstLine  = pre.value;
+  const orgFirstLineAlt = pre.alts.find(a => a.for === 'organisation');
+  const orgFirstLine    = orgFirstLineAlt ? orgFirstLineAlt.text : null;
+  const stField         = fields.find(f => f.key === 'short_text');
+  const orgShortTextAlt = stField.alts.find(a => a.for === 'organisation');
+  const orgShortText    = orgShortTextAlt ? orgShortTextAlt.text : null;
+
+  /* Publisher type radios — show/hide org note */
+  document.querySelectorAll('input[name="pub-type"]').forEach(r => {
+    r.addEventListener('change', function() {
+      document.getElementById('org-note').hidden = (this.value !== 'organisation');
+    });
+  });
+
+  /* Suggest reference button */
+  document.getElementById('btn-suggest-ref').addEventListener('click', function() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const arr = new Uint8Array(4);
+    crypto.getRandomValues(arr);
+    const suffix = Array.from(arr).map(b => chars[b % chars.length]).join('');
+    document.getElementById('f-reference').value = 'DLG-' + suffix;
+  });
+
+  /* Generator form */
+  document.getElementById('gen-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const errEl = document.getElementById('gen-error');
+    errEl.hidden = true;
+
+    const pubType   = document.querySelector('input[name="pub-type"]:checked').value;
+    const name      = document.getElementById('f-name').value.trim();
+    const email     = document.getElementById('f-email').value.trim();
+    const postal    = document.getElementById('f-postal').value.trim();
+    const domain    = document.getElementById('f-domain').value.trim();
+    const reference = document.getElementById('f-reference').value.trim();
+    const languages = document.getElementById('f-langs').value.trim() || 'any human written language; preferred en';
+    const langTags  = document.getElementById('f-langtags').value.trim() || 'en';
+    const pubDate   = document.getElementById('f-date').value.trim();
+    const liveOn    = document.getElementById('f-live').checked;
+    const labels    = Array.from(document.querySelectorAll('.label-field')).map(i => i.value);
+
+    const msgs = [];
+    if (!name)      msgs.push('Name is required.');
+    if (!email)     msgs.push('Email is required.');
+    if (!domain)    msgs.push('Domain is required.');
+    if (!reference) msgs.push('Reference is required. Use "Suggest one" or type your own.');
+    if (!pubDate || !RFC3339.test(pubDate)) msgs.push('Publication date must be RFC 3339 UTC (e.g. 2026-09-28T00:00:00Z).');
+    if (/^https?:\/\//i.test(domain) || domain.includes('/'))
+      msgs.push('Domain must be a bare hostname (no https://, no path).');
+    if (msgs.length) {
+      errEl.textContent = msgs.join(' ');
+      errEl.hidden = false;
+      return;
+    }
+
+    const text = generateDialogue(name, email, postal, domain, languages, langTags, pubDate, liveOn,
+                                  pubType, reference, labels, stdFirstLine, orgFirstLine, orgShortText);
+    document.getElementById('gen-text').value = text;
+
+    const path = 'https://' + domain + '/.well-known/dialogue.txt';
+    document.getElementById('ps-path').textContent = '/.well-known/dialogue.txt';
+    document.getElementById('ps-url').textContent  = path;
+
+    const res = validateDialogue(text, fields, reservedKeys);
+    showResult('gen-check', res);
+
+    document.getElementById('gen-output').hidden = false;
+    document.getElementById('gen-text').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  /* Copy */
+  document.getElementById('btn-copy').addEventListener('click', function() {
+    const txt = document.getElementById('gen-text').value;
+    navigator.clipboard.writeText(txt).then(() => {
+      const b = document.getElementById('btn-copy');
+      const orig = b.textContent;
+      b.textContent = 'Copied';
+      setTimeout(() => { b.textContent = orig; }, 1500);
+    });
+  });
+
+  /* Download .txt */
+  document.getElementById('btn-dl-txt').addEventListener('click', function() {
+    download('dialogue.txt', document.getElementById('gen-text').value, 'text/plain;charset=utf-8');
+  });
+
+  /* Download .json */
+  document.getElementById('btn-dl-json').addEventListener('click', function() {
+    const obj = toDialogueJSON(document.getElementById('gen-text').value);
+    download('dialogue.json', JSON.stringify(obj, null, 2) + '\n', 'application/json;charset=utf-8');
+  });
+
+  /* Checker: file picker */
+  document.getElementById('check-file').addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { document.getElementById('check-text').value = ev.target.result; };
+    reader.readAsText(file, 'utf-8');
+  });
+
+  /* Check button */
+  document.getElementById('btn-check').addEventListener('click', function() {
+    const text = document.getElementById('check-text').value;
+    if (!text.trim()) {
+      document.getElementById('check-result').innerHTML =
+        '<span class="ri warning">Paste or load a file first.</span>';
+      return;
+    }
+    const res = validateDialogue(text, fields, reservedKeys);
+    showResult('check-result', res);
+  });
+})();
+</script>
+</body>
+</html>

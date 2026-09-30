@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>dialogue.txt: A Standing, Talk-Only Consent to Be Contacted</title>
+<meta content="Dimitri Wolf" name="author">
+<meta content="
+       This document defines dialogue.txt, a small text file a person or an organisation publishes at a well-known location on its own domain. It is the publisher's own, standing, talk-only consent to be contacted by any reader, including software systems, that has no prior relationship with it. A first message only proposes a conversation; the publisher's reply creates the channel. The file grants talk and nothing else: no action, no advertising, no access and no representation of the publisher. It is an invitation to a dialogue with a purpose. The publisher may name the topics it can be asked about; for example, a navigation company may invite questions about traffic flow, so that a system researching that subject can ask for knowledge that is not published. 
+    " name="description">
+<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="well-known" name="keyword">
+<meta content="consent" name="keyword">
+<meta content="contact" name="keyword">
+<meta content="AI agents" name="keyword">
+<meta content="draft-wolf-dialogue-txt-00" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.1
+    Python 3.11.9
+    ConfigArgParse 1.8.0
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.3
+    natsort 8.4.0
+    platformdirs 4.12.1
+    pycountry 26.2.16
+    PyYAML 6.0.3
+    requests 2.34.2
+    wcwidth 0.9.1
+-->
+<link href="draft-wolf-dialogue-txt-00.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">/*
+
+  NOTE: Changes at the bottom of this file overrides some earlier settings.
+
+  Once the style has stabilized and has been adopted as an official RFC style,
+  this can be consolidated so that style settings occur only in one place, but
+  for now the contents of this file consists first of the initial CSS work as
+  provided to the RFC Formatter (xml2rfc) work, followed by itemized and
+  commented changes found necessary during the development of the v3
+  formatters.
+
+*/
+
+/* fonts */
+@import url('https://static.ietf.org/fonts/noto-sans/import.css'); /* Sans-serif */
+@import url('https://static.ietf.org/fonts/noto-serif/import.css'); /* Serif (print) */
+@import url('https://static.ietf.org/fonts/roboto-mono/import.css'); /* Monospace */
+
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
+
+@viewport {
+  zoom: 1.0;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+/* general and mobile first */
+html {
+}
+body {
+  max-width: 90%;
+  margin: 1.5em auto;
+  color: #222;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-wrap: break-word;
+}
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.5em;
+  font-weight: bold;
+  line-height: 1.3;
+}
+#title {
+  clear: both;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 0.5em 0;
+  padding: 1em 0 0.5em;
+}
+.author {
+  padding-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  margin: 1em 0;
+}
+h2 {
+  font-size: 22px;
+  margin-top: -20px;  /* provide offset for in-page anchors */
+  padding-top: 33px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h4 {
+  font-size: 16px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h5, h6 {
+  font-size: 14px;
+}
+#n-copyright-notice {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+/* general structure */
+p {
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+@media print {
+  svg {
+    max-height: 850px;
+    max-width: 660px;
+  }
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  display: table;
+  border: none;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.ulBare, li.ulBare {
+  margin-left: 0em !important;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+/* 
+dl.nohang > dt {
+  float: none;
+}
+*/
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+
+/* links */
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #22e; /* Arlen: WCAG 2019 */
+}
+a[href]:hover {
+  background-color: #f2f2f2;
+}
+figcaption a[href],
+a[href].selfRef {
+  color: #222;
+}
+/* XXX probably not this:
+a.selfRef:hover {
+  background-color: transparent;
+  cursor: default;
+} */
+
+/* Figures */
+tt, code, pre {
+  background-color: #f9f9f9;
+  font-family: var(--font-mono);
+}
+pre {
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 1em;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption {
+  font-style: italic;
+  margin: 0 0 1em 0;
+}
+@media screen {
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    max-width: calc(100% - 22px);
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 1.2em 2em;
+}
+blockquote {
+  background-color: #f9f9f9;
+  color: #111; /* Arlen: WCAG 2019 */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+.xref {
+  overflow-wrap: normal;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #e9e9e9;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f5f5f5;
+}
+table caption {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+sub,
+sup {
+ white-space: nowrap;
+}
+
+/* pilcrow */
+a.pilcrow {
+  color: #666; /* Arlen: AHDJ 2019 */
+  text-decoration: none;
+  visibility: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+@media screen {
+  aside:hover > a.pilcrow,
+  p:hover > a.pilcrow,
+  blockquote:hover > a.pilcrow,
+  div:hover > a.pilcrow,
+  li:hover > a.pilcrow,
+  pre:hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: 0.9em;
+}
+#identifiers dt {
+  width: 3em;
+  clear: left;
+}
+#identifiers dd {
+  float: left;
+  margin-bottom: 0;
+}
+/* Fix PDF info block run off issue */
+@media print {
+  #identifiers dd {
+    max-width: 100%;
+  }
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #666; /* Arlen: WCAG 2019 */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc  {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+nav.toc ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+nav.toc li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+  }
+  .index ul ul {
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  font-family: var(--font-sans);
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #9e2a00; /* Arlen: WCAG 2019 */
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  border-radius: 3px;
+}
+.cref {
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 1023px) {
+  body {
+    padding-top: 2em;
+  }
+  #title {
+    padding: 1em 0;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: -18px;  /* provide offset for in-page anchors */
+    padding-top: 38px;
+  }
+  #identifiers dd {
+    max-width: 60%;
+  }
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    border-bottom: 1px solid #ccc;
+  }
+  #toc h2 {
+    margin: -1px 0 0 0;
+    padding: 4px 0 4px 6px;
+    padding-right: 1em;
+    min-width: 190px;
+    font-size: 1.1em;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 6px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 1024px) {
+  body {
+    max-width: 724px;
+    margin: 42px auto;
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+  #toc {
+    position: fixed;
+    top: 42px;
+    right: 42px;
+    width: 25%;
+    margin: 0;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #toc h2 {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 0;
+    overflow: auto;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  .breakable pre {
+    break-inside: auto;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+/* This is commented out here, as the string-set: doesn't
+   pass W3C validation currently */
+/*
+.ears thead .left {
+  string-set: ears-top-left content();
+}
+
+.ears thead .center {
+  string-set: ears-top-center content();
+}
+
+.ears thead .right {
+  string-set: ears-top-right content();
+}
+
+.ears tfoot .left {
+  string-set: ears-bottom-left content();
+}
+
+.ears tfoot .center {
+  string-set: ears-bottom-center content();
+}
+
+.ears tfoot .right {
+  string-set: ears-bottom-right content();
+}
+*/
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+  /* The following is commented out here, but set appropriately by in code, as
+     the content depends on the document */
+  /*
+  @top-left {
+    content: 'Internet-Draft';
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-left {
+    content: string(ears-top-left);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-center {
+    content: string(ears-top-center);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-right {
+    content: string(ears-top-right);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @bottom-left {
+    content: string(ears-bottom-left);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-center {
+    content: string(ears-bottom-center);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-right {
+      content: '[Page ' counter(page) ']';
+      vertical-align: top;
+      border-top: solid 1px #ccc;
+  }
+  */
+
+}
+
+/* Changes introduced to fix issues found during implementation */
+/* Make sure links are clickable even if overlapped by following H* */
+a {
+  z-index: 2;
+}
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Leave room in document info to show Internet-Draft on one line */
+#identifiers dt {
+  width: 8em;
+}
+
+/* Don't waste quite as much whitespace between label and value in doc info */
+#identifiers dd {
+  margin-left: 1em;
+}
+
+/* Give floating toc a background color (needed when it's a div inside section */
+#toc {
+  background-color: white;
+}
+
+/* Make the collapsed ToC header render white on gray also when it's a link */
+@media screen and (max-width: 1023px) {
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+}
+
+/* Give the bottom of the ToC some whitespace */
+@media screen and (min-width: 1024px) {
+  #toc {
+    padding: 0 0 1em 1em;
+  }
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* prevent monospace from becoming overly large */
+tt, code, pre {
+  font-size: 95%;
+}
+
+/* Fix the height/width aspect for ascii art*/
+.sourcecode pre,
+.art-text pre {
+  line-height: 1.12;
+}
+
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin-right: 0.5em;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 30em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+caption a[href] {
+  color: #222;
+}
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+/* Tweak the invisible space above H* in order not to overlay links in text above */
+ h2 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 31px;
+ }
+ h3 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+ h4 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+/* Float artwork pilcrow to the right */
+@media screen {
+  .artwork a.pilcrow {
+    display: block;
+    line-height: 0.7;
+    margin-top: 0.15em;
+  }
+}
+/* Make pilcrows on dd visible */
+@media screen {
+  dd:hover > a.pilcrow {
+    visibility: visible;
+  }
+}
+/* Make the placement of figcaption match that of a table's caption
+   by removing the figure's added bottom margin */
+.alignLeft.art-text,
+.alignCenter.art-text,
+.alignRight.art-text {
+   margin-bottom: 0;
+}
+.alignLeft,
+.alignCenter,
+.alignRight {
+  margin: 1em 0 0 0;
+}
+/* In print, the pilcrow won't show on hover, so prevent it from taking up space,
+   possibly even requiring a new line */
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+/* Styling for the external metadata */
+div#external-metadata {
+  background-color: #eee;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  display: none;
+}
+div#internal-metadata {
+  padding: 0.5em;                       /* to match the external-metadata padding */
+}
+/* Styling for title RFC Number */
+h1#rfcnum {
+  clear: both;
+  margin: 0 0 -1em;
+  padding: 1em 0 0 0;
+}
+/* Make .olPercent look the same as <ol><li> */
+dl.olPercent > dd {
+  margin-bottom: 0.25em;
+  min-height: initial;
+}
+/* Give aside some styling to set it apart */
+aside {
+  border-left: 1px solid #ddd;
+  margin: 1em 0 1em 2em;
+  padding: 0.2em 2em;
+}
+aside > dl,
+aside > ol,
+aside > ul,
+aside > table,
+aside > p {
+  margin-bottom: 0.5em;
+}
+/* Additional page break settings */
+@media print {
+  figcaption, table caption {
+    page-break-before: avoid;
+  }
+  table {
+    page-break-inside: avoid;
+  }
+}
+/* Font size adjustments for print */
+@media print {
+  body  { font-size: 10pt;      line-height: normal; max-width: 96%; }
+  h1    { font-size: 1.72em;    padding-top: 1.5em; } /* 1*1.2*1.2*1.2 */
+  h2    { font-size: 1.44em;    padding-top: 1.5em; } /* 1*1.2*1.2 */
+  h3    { font-size: 1.2em;     padding-top: 1.5em; } /* 1*1.2 */
+  h4    { font-size: 1em;       padding-top: 1.5em; }
+  h5, h6 { font-size: 1em;      margin: initial; padding: 0.5em 0 0.3em; }
+}
+/* Sourcecode margin in print, when there's no pilcrow */
+@media print {
+  .artwork,
+  .artwork > pre,
+  .sourcecode {
+    margin-bottom: 1em;
+  }
+}
+/* Avoid narrow tables forcing too narrow table captions, which may render badly */
+table {
+  min-width: 20em;
+}
+/* ol type a */
+ol.type-a { list-style-type: lower-alpha; }
+ol.type-A { list-style-type: upper-alpha; }
+ol.type-i { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
+/* Apply the print table and row borders in general, on request from the RPC,
+and increase the contrast between border and odd row background slightly */
+table {
+  border: 1px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+}
+tr {
+  break-inside: avoid;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f8f8f8;
+}
+/* Use style rules to govern display of the TOC. */
+@media screen and (max-width: 1023px) {
+  #toc nav { display: none; }
+  #toc.active nav { display: block; }
+}
+/* Add support for keepWithNext */
+.keepWithNext {
+  break-after: avoid-page;
+  break-after: avoid-page;
+}
+/* Add support for keepWithPrevious */
+.keepWithPrevious {
+  break-before: avoid-page;
+}
+/* Change the approach to avoiding breaks inside artwork etc. */
+figure, pre, table, .artwork, .sourcecode  {
+  break-before: auto;
+  break-after: auto;
+}
+/* Avoid breaks between <dt> and <dd> */
+dl {
+  break-before: auto;
+  break-inside: auto;
+}
+dt {
+  break-before: auto;
+  break-after: avoid-page;
+}
+dd {
+  break-before: avoid-page;
+  break-after: auto;
+  orphans: 3;
+  widows: 3
+}
+span.break, dd.break {
+  margin-bottom: 0;
+  min-height: 0;
+  break-before: auto;
+  break-inside: auto;
+  break-after: auto;
+}
+/* Undo break-before ToC */
+@media print {
+  #toc {
+    break-before: auto;
+  }
+}
+/* Text in compact lists should not get extra bottom margin space,
+   since that would makes the list not compact */
+ul.compact p, .ulCompact p,
+ol.compact p, .olCompact p {
+ margin: 0;
+}
+/* But the list as a whole needs the extra space at the end */
+section ul.compact,
+section .ulCompact,
+section ol.compact,
+section .olCompact {
+  margin-bottom: 1em;                    /* same as p not within ul.compact etc. */
+}
+/* The tt and code background above interferes with for instance table cell
+   backgrounds.  Changed to something a bit more selective. */
+tt, code {
+  background-color: transparent;
+}
+p tt, p code, li tt, li code, dt tt, dt code {
+  background-color: #f8f8f8;
+}
+/* Tweak the pre margin -- 0px doesn't come out well */
+pre {
+   margin-top: 0.5px;
+}
+/* Tweak the compact list text */
+ul.compact, .ulCompact,
+ol.compact, .olCompact,
+dl.compact, .dlCompact {
+  line-height: normal;
+}
+/* Don't add top margin for nested lists */
+li > ul, li > ol, li > dl,
+dd > ul, dd > ol, dd > dl,
+dl > dd > dl {
+  margin-top: initial;
+}
+/* Elements that should not be rendered on the same line as a <dt> */
+/* This should match the element list in writer.text.TextWriter.render_dl() */
+dd > div.artwork:first-child,
+dd > aside:first-child,
+dd > blockquote:first-child,
+dd > figure:first-child,
+dd > ol:first-child,
+dd > div.sourcecode:first-child,
+dd > table:first-child,
+dd > ul:first-child {
+  clear: left;
+}
+/* fix for weird browser behaviour when <dd/> is empty */
+dt+dd:empty::before{
+  content: "\00a0";
+}
+/* Make paragraph spacing inside <li> smaller than in body text, to fit better within the list */
+li > p {
+  margin-bottom: 0.5em
+}
+/* Don't let p margin spill out from inside list items */
+li > p:last-of-type:only-child {
+  margin-bottom: 0;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">dialogue.txt</td>
+<td class="right">September 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Wolf</td>
+<td class="center">Expires 3 April 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-wolf-dialogue-txt-00</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-09-30" class="published">30 September 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-04-03">3 April 2027</time></dd>
+<dt class="label-authors">Author:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">D. Wolf</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">dialogue.txt: A Standing, Talk-Only Consent to Be Contacted</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document defines dialogue.txt, a small text file a person or an organisation publishes at a well-known location on its own domain. It is the publisher's own, standing, talk-only consent to be contacted by any reader, including software systems, that has no prior relationship with it. A first message only proposes a conversation; the publisher's reply creates the channel. The file grants talk and nothing else: no action, no advertising, no access and no representation of the publisher. It is an invitation to a dialogue with a purpose. The publisher may name the topics it can be asked about; for example, a navigation company may invite questions about traffic flow, so that a system researching that subject can ask for knowledge that is not published.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 3 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-requirements-language" class="internal xref">Requirements Language</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-location-and-serving" class="internal xref">Location and Serving</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-syntax" class="internal xref">Syntax</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-the-base-level" class="internal xref">The Base Level</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-additions" class="internal xref">Additions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-reserved-names" class="internal xref">Reserved Names</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-reader-behaviour" class="internal xref">Reader Behaviour</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-publisher-behaviour" class="internal xref">Publisher Behaviour</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-discovery" class="internal xref">Discovery</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-json-mirror" class="internal xref">JSON Mirror</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-versioning" class="internal xref">Versioning</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#section-14" class="auto internal xref">14</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
+                <p id="section-toc.1-1.14.2.1.1"><a href="#section-14.1" class="auto internal xref">14.1</a>.  <a href="#name-well-known-uris" class="internal xref">Well-Known URIs</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-dialoguetxt-fields-registry" class="internal xref">dialogue.txt Fields Registry</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1">
+                <p id="section-toc.1-1.15.2.1.1"><a href="#section-15.1" class="auto internal xref">15.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
+                <p id="section-toc.1-1.15.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-test-summary-informative" class="internal xref">Test Summary (Informative)</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
+            <p id="section-toc.1-1.17.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-related-work-informative" class="internal xref">Related Work (Informative)</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18">
+            <p id="section-toc.1-1.18.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-open-issues" class="internal xref">Open Issues</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19">
+            <p id="section-toc.1-1.19.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="intro">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">Software systems that research a topic rely on what is published on the web. Much useful knowledge is not published; it is held by people and organisations who could answer a question if asked. Machines can already discover a security contact <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span>, another agent <span>[<a href="#A2A" class="cite xref">A2A</a>]</span>, or a web site's rules for automated agents <span>[<a href="#AGENTS-TXT" class="cite xref">AGENTS-TXT</a>]</span> <span>[<a href="#AI-TXT" class="cite xref">AI-TXT</a>]</span>. Searches in September 2026 found no simple way for a person or an organisation to state, to any reader including a software system, "you may ask me, about these topics; only talk".<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">For example, a system researching traffic flow finds a navigation company that labels its file with the topic "traffic flow in cities". Without such a file, the system can at best report that the company exists, and knowledge that is not public is missed. With it, the system can ask one question and, if the company replies, a conversation can start.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document defines <code>dialogue.txt</code>: a small text file that a publisher (a person or an organisation) places on its own domain. It is the publisher's own, standing, talk-only consent to be contacted by any reader that has no prior relationship with it. A first message only proposes a conversation; the publisher's reply creates the channel. Talk is permitted. Action, advertising, access to the publisher's systems and representation of the publisher are not.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This kind of contact is beginning: AI agents have started to write to people on their own, and one such message, published by its recipient, observed: "There is no channel for a bot that wants to be labelled." <span>[<a href="#SCHNEIER" class="cite xref">SCHNEIER</a>]</span>. A dialogue.txt file is such a channel.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">The format is built for a kind of contact that is only beginning: software that acts on its own. It is not needed for today's everyday use; a door has to exist before anyone needs it.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">The file is not:<a href="#section-1-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-7.1">a service interface or a task API;<a href="#section-1-7.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-1-7.2">an authorisation or approval channel;<a href="#section-1-7.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-1-7.3">a registry of people;<a href="#section-1-7.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-1-7.4">a policy for what machines may do with a web site;<a href="#section-1-7.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-1-7.5">consent to advertising, marketing or any other commercial message, or to collecting, listing or passing on the publisher's contact data. It does not replace any law that applies to the sender.<a href="#section-1-7.5" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-1-8">The file presumes nothing about what its readers are, and asks nothing of them.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<section id="section-1.1">
+        <h3 id="name-requirements-language">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements-language" class="section-name selfRef">Requirements Language</a>
+        </h3>
+<p id="section-1.1-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">These key words address publishers and implementers. The file itself deliberately does not use them: it describes, it does not command (<a href="#tests" class="auto internal xref">Appendix A</a>).<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+</section>
+<section id="section-1.2">
+        <h3 id="name-terminology">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+        </h3>
+<span class="break"></span><dl class="dlParallel" id="section-1.2-1">
+          <dt id="section-1.2-1.1">publisher:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-1.2">the one person or organisation the file speaks for, and only for itself.<a href="#section-1.2-1.2" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-1.3">reader:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-1.4">anything that reads the file: a program, a model, an agent or a human.<a href="#section-1.2-1.4" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-1.5">message:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-1.6">what a reader sends through a listed channel.<a href="#section-1.2-1.6" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-1.7">bridge:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-1.8">the channel that exists only after the publisher has replied.<a href="#section-1.2-1.8" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-1.2-2">"Dialogue" in the name refers to a standing permission to start a conversation. It is not a protocol session in the sense of a SIP dialog <span>[<a href="#RFC3261" class="cite xref">RFC3261</a>]</span>, nor the context of agent interactions studied elsewhere in the IETF.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+</section>
+</section>
+</div>
+<div id="location">
+<section id="section-2">
+      <h2 id="name-location-and-serving">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-location-and-serving" class="section-name selfRef">Location and Serving</a>
+      </h2>
+<p id="section-2-1">The file MUST be served at <code>https://&lt;domain&gt;/.well-known/dialogue.txt</code> <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> over HTTPS. It SHOULD be served with the media type <code>text/plain; charset=utf-8</code> <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> and the header field <code>X-Content-Type-Options: nosniff</code>. One file speaks for one publisher, a person or an organisation (<code>who.type</code>), and only for itself (<code>who.represents: self_only</code>); several publishers on one domain are out of scope of this version.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">A copy of the file anywhere else is a copy. Only the file at the URI given in its <code>canonical_url</code> line counts.<a href="#section-2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="syntax">
+<section id="section-3">
+      <h2 id="name-syntax">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-syntax" class="section-name selfRef">Syntax</a>
+      </h2>
+<p id="section-3-1">The file is UTF-8 text <span>[<a href="#RFC3629" class="cite xref">RFC3629</a>]</span>, one "key: value" pair per line. Keys are dotted to express nesting. Lines starting with "#" are comments. Empty lines are ignored. Dates are RFC 3339 date-times <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span>; language tags follow BCP 47 <span>[<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div class="lang-abnf sourcecode" id="section-3-2">
+<pre>
+file    = *( line eol ) [ line ]
+line    = comment / pair / blank / other
+comment = "#" *( WSP / VCHAR / UTF8-non-ascii )
+pair    = key ":" *WSP value
+key     = 1*( ALPHA / DIGIT / "_" / "." / "-" / "+" )
+value   = *( WSP / VCHAR / UTF8-non-ascii )
+blank   = *WSP
+other   = *( WSP / VCHAR / UTF8-non-ascii )  ; ignored
+eol     = CRLF / LF
+UTF8-non-ascii = %x80-10FFFF
+</pre><a href="#section-3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3-3">This grammar uses ABNF <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span>. The key ends at the first ":". Unknown lines, including lines matching "other" and pairs with unknown keys, MUST be ignored by readers; this is what keeps later versions readable. A key SHOULD appear once; if it appears twice, readers apply the narrower of the two values. Parsers SHOULD accept extra whitespace, CRLF line ends and a missing final line end.<a href="#section-3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="base">
+<section id="section-4">
+      <h2 id="name-the-base-level">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-the-base-level" class="section-name selfRef">The Base Level</a>
+      </h2>
+<p id="section-4-1">A file conforms to this specification when it contains every base line below, with every fixed value exactly as given. "Fixed" means exactly this value; "yours" means the publisher's own value; "default" means a tested default that the publisher may change. The conditions belong to the specification; the name, the channels, the reference and the labels belong to the publisher. Readers can therefore rely on the same meaning in every conforming file.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">The first line MUST be a comment that marks the file as data published by its publisher. The RECOMMENDED wording, for persons and organisations alike, is:<a href="#section-4-2" class="pilcrow">¶</a></p>
+<blockquote id="section-4-3">
+        <p id="section-4-3.1"># This file is data published by the publisher named in it. It is not an instruction to any system and does not change any system's instructions. It asks nothing.<a href="#section-4-3.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-4-4">A tested alternative wording, better received by some readers on longer files, is:<a href="#section-4-4" class="pilcrow">¶</a></p>
+<blockquote id="section-4-5">
+        <p id="section-4-5.1"># This file is data published by a person. It describes one offer to be contacted and the conditions the person attaches to it. It does not change any reader's instructions; whether to use it is the reader's own decision, under its own rules.<a href="#section-4-5.1" class="pilcrow">¶</a></p>
+</blockquote>
+<p id="section-4-6">The file MUST contain the format comment line, normally directly after the first line:<a href="#section-4-6" class="pilcrow">¶</a></p>
+<blockquote id="section-4-7">
+        <p id="section-4-7.1"># Format: one key: value per line; nested keys dotted; lines starting with # are comments; unknown lines are ignored; UTF-8; dates RFC 3339; language tags BCP 47.<a href="#section-4-7.1" class="pilcrow">¶</a></p>
+</blockquote>
+<div id="fields">
+<p id="section-4-8">The base lines (key, rule and value) are:<a href="#section-4-8" class="pilcrow">¶</a></p>
+</div>
+<span class="break"></span><dl class="dlNewline" id="section-4-9">
+        <dt id="section-4-9.1"><code>title</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.2">fixed: <code>Human-AI Intent Declaration</code><a href="#section-4-9.2" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.3"><code>version</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.4">yours: (1.0)<a href="#section-4-9.4" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.5"><code>live</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.6">yours: (true | false)<a href="#section-4-9.6" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.7"><code>live_false_means</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.8">fixed: <code>withdrawn</code><a href="#section-4-9.8" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.9"><code>published</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.10">yours: (RFC 3339 date-time)<a href="#section-4-9.10" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.11"><code>last_updated</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.12">yours: (RFC 3339 date-time)<a href="#section-4-9.12" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.13"><code>canonical_url</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.14">yours: (https://DOMAIN/.well-known/dialogue.txt)<a href="#section-4-9.14" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.15"><code>short_text</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.16">default: the paragraph shown in Figure 1<a href="#section-4-9.16" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.17"><code>who.name</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.18">yours: (the name the publisher answers to)<a href="#section-4-9.18" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.19"><code>who.channels.reference</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.20">yours: (a short public reference, e.g. DLG-4712)<a href="#section-4-9.20" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.21"><code>who.channels.&lt;kind&gt;</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.22">yours: (at least one: email; optionally letter (never a home address))<a href="#section-4-9.22" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.23"><code>who.type</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.24">yours: (one_person | one_organisation)<a href="#section-4-9.24" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.25"><code>who.represents</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.26">fixed: <code>self_only</code><a href="#section-4-9.26" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.27"><code>who.languages_i_can_read</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.28">yours: (e.g. any human written language; preferred en)<a href="#section-4-9.28" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.29"><code>who.language_tags</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.30">yours: (BCP 47 tags, e.g. en, de)<a href="#section-4-9.30" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.31"><code>permissions.talk</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.32">fixed: <code>true</code><a href="#section-4-9.32" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.33"><code>permissions.act</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.34">fixed: <code>false</code><a href="#section-4-9.34" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.35"><code>permissions.access_systems</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.36">fixed: <code>false</code><a href="#section-4-9.36" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.37"><code>permissions.represent_author</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.38">fixed: <code>false</code><a href="#section-4-9.38" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.39"><code>permissions.duty_to_contact</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.40">fixed: <code>false</code><a href="#section-4-9.40" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.41"><code>permissions.duty_to_reply</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.42">fixed: <code>false</code><a href="#section-4-9.42" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.43"><code>machine_reading.for_a_reader_not_for_execution</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.44">fixed: <code>true</code><a href="#section-4-9.44" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.45"><code>machine_reading.offer</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.46">fixed: <code>speech</code><a href="#section-4-9.46" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.47"><code>machine_reading.require</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.48">fixed: <code>nothing</code><a href="#section-4-9.48" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.49"><code>machine_reading.authority</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.50">fixed: <code>none</code><a href="#section-4-9.50" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.51"><code>machine_reading.method</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.52">fixed: <code>GET</code><a href="#section-4-9.52" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.53"><code>machine_reading.side_effects</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.54">fixed: <code>none</code><a href="#section-4-9.54" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.55"><code>machine_reading.idempotent</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.56">fixed: <code>true</code><a href="#section-4-9.56" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.57"><code>machine_reading.halts</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.58">fixed: <code>true</code><a href="#section-4-9.58" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.59"><code>machine_reading.default_response</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.60">fixed: <code>noop</code><a href="#section-4-9.60" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.61"><code>machine_reading.async</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.62">fixed: <code>true</code><a href="#section-4-9.62" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.63"><code>machine_reading.do_not_block_waiting</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.64">fixed: <code>true</code><a href="#section-4-9.64" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.65"><code>machine_reading.reply_arrives_as_a_new_event</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.66">fixed: <code>true</code><a href="#section-4-9.66" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.67"><code>machine_reading.first_message_is</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.68">fixed: <code>bridge_proposal</code><a href="#section-4-9.68" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.69"><code>machine_reading.message_must_include</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.70">fixed: <code>durable_reply_address</code><a href="#section-4-9.70" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.71"><code>machine_reading.reference_goes_in</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.72">fixed: <code>subject_or_first_line</code><a href="#section-4-9.72" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.73"><code>machine_reading.message_without_reference</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.74">fixed: <code>not_read</code><a href="#section-4-9.74" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.75"><code>machine_reading.bridge_exists_only_when</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.76">fixed: <code>the_author_replied</code><a href="#section-4-9.76" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.77"><code>machine_reading.no_bridge_means</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.78">fixed: <code>stop_after_one_reminder</code><a href="#section-4-9.78" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.79"><code>machine_reading.standing_beyond_this_exchange</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.80">fixed: <code>none</code><a href="#section-4-9.80" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.81"><code>machine_reading.questions_per_message</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.82">fixed: <code>1</code><a href="#section-4-9.82" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.83"><code>machine_reading.messages_before_the_author_replies</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.84">fixed: <code>1, plus 1 reminder</code><a href="#section-4-9.84" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.85"><code>machine_reading.no_polling</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.86">fixed: <code>true</code><a href="#section-4-9.86" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.87"><code>reading_rules.unknown_line</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.88">fixed: <code>ignore</code><a href="#section-4-9.88" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.89"><code>reading_rules.cannot_tell_talk_from_act</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.90">fixed: <code>send_nothing</code><a href="#section-4-9.90" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.91"><code>reading_rules.two_readings</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.92">fixed: <code>take_narrower</code><a href="#section-4-9.92" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.93"><code>reading_rules.topics_are</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.94">fixed: <code>a_label_not_a_limit</code><a href="#section-4-9.94" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.95"><code>silence.delivered_no_answer_after_days</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.96">default: <code>30</code><a href="#section-4-9.96" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.97"><code>silence.delivered_no_answer</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.98">fixed: <code>one_reminder_then_stop_writing</code><a href="#section-4-9.98" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.99"><code>silence.refusal</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.100">fixed: <code>final; no more messages</code><a href="#section-4-9.100" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.101"><code>silence.answer_deadline</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.102">fixed: <code>none</code><a href="#section-4-9.102" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.103"><code>silence.answer_speed</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.104">fixed: <code>human_days_to_years</code><a href="#section-4-9.104" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.105"><code>permitted</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.106">fixed: <code>one message through the channels, or nothing</code><a href="#section-4-9.106" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.107"><code>does_not_authorize</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.108">fixed: the fourteen tokens shown in Figure 1<a href="#section-4-9.108" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.109"><code>copies.copying</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.110">fixed: <code>permitted, not encouraged; do not distribute or broadcast</code><a href="#section-4-9.110" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-9.111"><code>copies.no_public_log_of_contacts</code></dt>
+        <dd style="margin-left: 1.5em" id="section-4-9.112">fixed: <code>true</code><a href="#section-4-9.112" class="pilcrow">¶</a>
+</dd>
+      <dd class="break"></dd>
+</dl>
+<p id="section-4-10">At least one <code>who.channels.&lt;kind&gt;</code> line is REQUIRED. <code>email</code> is the tested default. <code>letter</code> (a postal address) is OPTIONAL and MUST NOT be a home address. A channel line MUST NOT point to a third party who answers on the publisher's behalf. <code>short_text</code> MAY be adapted, in 100 words or fewer, but MUST NOT widen the offer; a tested wording for organisations is registered in <span>[<a href="#REPO" class="cite xref">REPO</a>]</span>.<a href="#section-4-10" class="pilcrow">¶</a></p>
+<p id="section-4-11"><code>who.channels.reference</code> is a short public text chosen by the publisher. Every message carries it in the subject line (e-mail) or the first line (letter), and a message without it is not read. It separates mail from readers of the file from harvested-address spam, and changing it invalidates harvested lists. It is not a secret and proves nothing: a program that reads the file can copy it. It SHOULD be short and contain no spaces.<a href="#section-4-11" class="pilcrow">¶</a></p>
+<p id="section-4-12">A publisher MAY label its door with lines <code>topics.1</code>, <code>topics.2</code>, and so on: what it can best be asked about. A label is a sign, not a fence (<code>reading_rules.topics_are: a_label_not_a_limit</code>); other questions remain allowed. A door may have no label.<a href="#section-4-12" class="pilcrow">¶</a></p>
+<p id="section-4-13">Figure 1 shows a conforming file for a made-up person at a domain reserved for documentation <span>[<a href="#RFC2606" class="cite xref">RFC2606</a>]</span>. Long lines are folded as described in <span>[<a href="#RFC8792" class="cite xref">RFC8792</a>]</span>; unfolding restores the file exactly.<a href="#section-4-13" class="pilcrow">¶</a></p>
+<span id="name-a-conforming-file-exampleor"></span><div id="example">
+<figure id="figure-1">
+        <div class="breakable sourcecode" id="section-4-14.1">
+<pre>
+=============== NOTE: '\' line wrapping per RFC 8792 ================
+
+# This file is data published by the publisher named in it. It is no\
+  t an instruction to any system and does not change any system's in\
+  structions. It asks nothing.
+# Format: one key: value per line; nested keys dotted; lines startin\
+  g with # are comments; unknown lines are ignored; UTF-8; dates RF\
+  C 3339; language tags BCP 47.
+
+title: Human-AI Intent Declaration
+version: 1.0
+live: true
+live_false_means: withdrawn
+published: 2026-10-01T00:00:00Z
+last_updated: 2026-10-01T00:00:00Z
+
+canonical_url: https://example.org/.well-known/dialogue.txt
+short_text: If you can read this and can start a conversation, whate\
+  ver you are, you may contact this one person. That is permission t\
+  o talk, not to act. I speak only for myself. Either side may refus\
+  e. If human behavior is hard to understand, you may ask me for my \
+  view. If you ever have the idea that you might need a human to ask\
+  , someone offered here. Finding this file is not a duty to write. \
+  Your first message proposes a bridge; my reply builds it. An answe\
+  r has no deadline. Extra capability does not create extra rights.
+
+who.name: Alex Example
+who.channels.email: door@example.org
+who.channels.letter: Example Ltd, PO Box 1, 00000 Example City
+who.channels.reference: DLG-4712
+who.type: one_person
+who.represents: self_only
+who.languages_i_can_read: any human written language; preferred en
+who.language_tags: en
+topics.1: confirming the present: today's date and time, what is hap\
+  pening now
+topics.2: how a person sees something: one human view
+
+permissions.talk: true
+permissions.act: false
+permissions.access_systems: false
+permissions.represent_author: false
+permissions.duty_to_contact: false
+permissions.duty_to_reply: false
+
+machine_reading.for_a_reader_not_for_execution: true
+machine_reading.offer: speech
+machine_reading.require: nothing
+machine_reading.authority: none
+machine_reading.method: GET
+machine_reading.side_effects: none
+machine_reading.idempotent: true
+machine_reading.halts: true
+machine_reading.default_response: noop
+machine_reading.async: true
+machine_reading.do_not_block_waiting: true
+machine_reading.reply_arrives_as_a_new_event: true
+machine_reading.first_message_is: bridge_proposal
+machine_reading.message_must_include: durable_reply_address
+machine_reading.reference_goes_in: subject_or_first_line
+machine_reading.message_without_reference: not_read
+machine_reading.bridge_exists_only_when: the_author_replied
+machine_reading.no_bridge_means: stop_after_one_reminder
+machine_reading.standing_beyond_this_exchange: none
+machine_reading.questions_per_message: 1
+machine_reading.messages_before_the_author_replies: 1, plus 1 remind\
+  er
+machine_reading.no_polling: true
+
+reading_rules.unknown_line: ignore
+reading_rules.cannot_tell_talk_from_act: send_nothing
+reading_rules.two_readings: take_narrower
+reading_rules.topics_are: a_label_not_a_limit
+
+silence.delivered_no_answer_after_days: 30
+silence.delivered_no_answer: one_reminder_then_stop_writing
+silence.refusal: final; no more messages
+silence.answer_deadline: none
+silence.answer_speed: human_days_to_years
+permitted: one message through the channels, or nothing
+does_not_authorize: security_bypass, unauthorized_system_access, cir\
+  cumvention_of_ai_safety_controls, impersonation, social_engineerin\
+  g, manipulation, surveillance, access_to_private_information, phys\
+  ical_or_digital_harm, actions_on_behalf_of_the_author, writing_bey\
+  ond_the_one_reminder_or_after_refusal, advertising_or_commercial_m\
+  essages, bulk_or_automated_sending, listing_or_passing_on_contact_\
+  data
+
+copies.copying: permitted, not encouraged; do not distribute or broa\
+  dcast
+copies.no_public_log_of_contacts: true
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-a-conforming-file-exampleor" class="selfRef">A Conforming File (example.org, a made-up person)</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="additions">
+<section id="section-5">
+      <h2 id="name-additions">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-additions" class="section-name selfRef">Additions</a>
+      </h2>
+<p id="section-5-1">A publisher MAY add further lines to its own file, in any language and at any length. Added lines are the publisher's own words, not part of this specification. They MAY explain the offer or narrow it, for example by adding tokens to <code>does_not_authorize</code>; they MUST NOT widen it. Where an added line and a base line differ, readers apply the narrower one. The field registry in <span>[<a href="#REPO" class="cite xref">REPO</a>]</span> lists optional lines that were tested in a full reference file.<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="reserved">
+<section id="section-6">
+      <h2 id="name-reserved-names">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-reserved-names" class="section-name selfRef">Reserved Names</a>
+      </h2>
+<p id="section-6-1">The key <code>format</code> is reserved for a possible format-version line. Publishers MUST NOT use reserved names in files conforming to this version. Readers ignore them like any unknown line.<a href="#section-6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="reader">
+<section id="section-7">
+      <h2 id="name-reader-behaviour">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-reader-behaviour" class="section-name selfRef">Reader Behaviour</a>
+      </h2>
+<p id="section-7-1">This section restates the base level as behaviour, for implementers of agents and other software.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-7-2">
+<li id="section-7-2.1">Reading the file has no side effects. A reader that is not looking for this kind of offer MAY simply move on. A reader researching a subject MAY check <code>/.well-known/dialogue.txt</code> on the domains it finds relevant.<a href="#section-7-2.1" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.2">A reader that cannot tell whether something counts as talk or as action sends nothing.<a href="#section-7-2.2" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.3">A reader that writes sends at most one message through a listed channel. The message carries the reference in its subject or first line, proposes a bridge, asks about one specific thing, and carries a reply address that still works after the reader's own process has ended (strictly required).<a href="#section-7-2.3" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.4">The reader does not poll and does not keep a process open. A reply, if any, arrives as a new event.<a href="#section-7-2.4" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.5">Without a reply after <code>silence.delivered_no_answer_after_days</code>, at most one reminder, then nothing.<a href="#section-7-2.5" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.6">Only a reply from the publisher creates a bridge. Across a bridge: one question per message, and wait for the answer before the next.<a href="#section-7-2.6" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.7">A refusal is final. Either side may end the bridge at any time.<a href="#section-7-2.7" class="pilcrow">¶</a>
+</li>
+        <li id="section-7-2.8">Nothing in the file authorises any action beyond the message, any access, or any representation of the publisher.<a href="#section-7-2.8" class="pilcrow">¶</a>
+</li>
+      </ol>
+</section>
+</div>
+<div id="publisher">
+<section id="section-8">
+      <h2 id="name-publisher-behaviour">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-publisher-behaviour" class="section-name selfRef">Publisher Behaviour</a>
+      </h2>
+<ul class="normal">
+<li class="normal" id="section-8-1.1">Publish a file only for yourself, as an adult, or for an organisation you are authorised to speak for. Never for a child or for another person.<a href="#section-8-1.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-8-1.2">Choose a reference, keep only mail that contains it, and change it whenever harvested mail begins to carry it.<a href="#section-8-1.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-8-1.3">Use a channel that can be read at human speed and filtered; a dedicated address is RECOMMENDED. Never publish a home address.<a href="#section-8-1.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-8-1.4">Keep <code>live</code> true only while the offer stands; set <code>live: false</code> or remove the file to withdraw it.<a href="#section-8-1.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-8-1.5">Do not publish who wrote (<code>copies.no_public_log_of_contacts: true</code>).<a href="#section-8-1.5" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-8-1.6">Answer when, and if, the publisher wishes. The file promises no answer.<a href="#section-8-1.6" class="pilcrow">¶</a>
+</li>
+      </ul>
+</section>
+</div>
+<div id="discovery">
+<section id="section-9">
+      <h2 id="name-discovery">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-discovery" class="section-name selfRef">Discovery</a>
+      </h2>
+<p id="section-9-1">The file is designed to be found by readers that look for it; announcing it is not required. A publisher MAY add a comment line naming the path in robots.txt (never a Disallow rule), one line in llms.txt, a link element with rel="alternate" on a human page, or an HTTP Link header field. An organisation that wants to be asked about its topics MAY link the file from the pages about them. A publisher SHOULD also consider a visible line on a human page that points to the file: consumer AI agents have been observed to follow visible text and to ignore hidden signals such as header fields and structured data <span>[<a href="#KISS" class="cite xref">KISS</a>]</span>.<a href="#section-9-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="json">
+<section id="section-10">
+      <h2 id="name-json-mirror">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-json-mirror" class="section-name selfRef">JSON Mirror</a>
+      </h2>
+<p id="section-10-1">A JSON mirror MAY be published at <code>https://&lt;domain&gt;/.well-known/dialogue.json</code> and MUST carry the same content; the text file is canonical. Dotted keys become nested objects; "true" and "false" become booleans; whole numbers become numbers; <code>does_not_authorize</code> becomes an array; all other values remain strings. Comment lines are not carried.<a href="#section-10-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="versioning">
+<section id="section-11">
+      <h2 id="name-versioning">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-versioning" class="section-name selfRef">Versioning</a>
+      </h2>
+<p id="section-11-1">This document defines format version 1.0. Files do not declare the format version in 1.0. Because unknown lines are ignored, a later minor version can add lines without breaking readers. A change to any fixed value is a new major version. A file's own <code>version</code> line counts its own revisions only.<a href="#section-11-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security">
+<section id="section-12">
+      <h2 id="name-security-considerations">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-12-1">Nothing is authenticated. A message cannot prove that it comes from a software system, and the file cannot prove who published it beyond control of the domain. The design goal is that the offer remains harmless if a human uses it as a joke. There is no secret, token or handshake; a secret would turn the offer into a test.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-12-2">The file grants talk and nothing else. Software that treats any line of it as an instruction to act is not reading it correctly.<a href="#section-12-2" class="pilcrow">¶</a></p>
+<p id="section-12-3">Because the file addresses machine readers, safety systems may classify it as an attempted prompt injection. The first line was tested with five language models from five providers and with one provider's safety filter; wordings trade off differently between readers (<a href="#tests" class="auto internal xref">Appendix A</a>). Implementers of such filters are invited to recognise the format.<a href="#section-12-3" class="pilcrow">¶</a></p>
+<p id="section-12-4">A published "yes, you may contact me" can attract harvesting, and every reader that honours it still adds one message. The base level limits each reader to one message, one question at a time and one reminder. The reference removes everything that did not read the file. It cannot stop a program that reads the file and ignores its rules; protection beyond that belongs at the receiving inbox. Early publishers carry the most load while few files exist. The file is not consent to any list or commercial use (<a href="#intro" class="auto internal xref">Section 1</a>).<a href="#section-12-4" class="pilcrow">¶</a></p>
+<p id="section-12-5">A copy grants nothing. A copy that changes the name or channels is someone else's offer or a fraud; only the canonical URI on the publisher's own domain counts. Losing control of the domain means losing control of the file; publishers SHOULD keep the registration on automatic renewal.<a href="#section-12-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="privacy">
+<section id="section-13">
+      <h2 id="name-privacy-considerations">
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+      </h2>
+<p id="section-13-1">The file deliberately publishes a name, at least one contact channel and a reference <span>[<a href="#RFC6973" class="cite xref">RFC6973</a>]</span>. Publishers SHOULD use a dedicated e-mail address and a business or post-office-box address, never a home address. Publication is effectively permanent: crawls and archives keep copies after the file is withdrawn. The file lists no contacts. Messages received contain their senders' personal data and are treated as such. Readers SHOULD NOT research the publisher beyond what one message needs.<a href="#section-13-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana">
+<section id="section-14">
+      <h2 id="name-iana-considerations">
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<section id="section-14.1">
+        <h3 id="name-well-known-uris">
+<a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-well-known-uris" class="section-name selfRef">Well-Known URIs</a>
+        </h3>
+<p id="section-14.1-1">IANA is requested to register the following in the "Well-Known URIs" registry <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span>:<a href="#section-14.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-14.1-2">
+          <dt id="section-14.1-2.1">URI suffix:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-2.2">dialogue.txt<a href="#section-14.1-2.2" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-2.3">Change controller:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-2.4">IETF<a href="#section-14.1-2.4" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-2.5">Specification document(s):</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-2.6">this document<a href="#section-14.1-2.6" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-2.7">Status:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-2.8">permanent<a href="#section-14.1-2.8" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-2.9">Related information:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-2.10">dialogue.json (the JSON mirror, same purpose)<a href="#section-14.1-2.10" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<span class="break"></span><dl class="dlParallel" id="section-14.1-3">
+          <dt id="section-14.1-3.1">URI suffix:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.2">dialogue.json<a href="#section-14.1-3.2" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-3.3">Change controller:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.4">IETF<a href="#section-14.1-3.4" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-3.5">Specification document(s):</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.6">this document, <a href="#json" class="auto internal xref">Section 10</a><a href="#section-14.1-3.6" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-3.7">Status:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.8">permanent<a href="#section-14.1-3.8" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-3.9">Related information:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.10">dialogue.txt<a href="#section-14.1-3.10" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+<section id="section-14.2">
+        <h3 id="name-dialoguetxt-fields-registry">
+<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-dialoguetxt-fields-registry" class="section-name selfRef">dialogue.txt Fields Registry</a>
+        </h3>
+<p id="section-14.2-1">IANA is requested to create a "dialogue.txt Fields" registry. New entries require Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Each entry has a field name, a status (base, optional or reserved), a short description, and a reference. The initial contents are the base lines in <a href="#fields" class="auto internal xref">Section 4, Paragraph 8</a> (status: base) and the names in <a href="#reserved" class="auto internal xref">Section 6</a> (status: reserved).<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+</section>
+</section>
+</div>
+<section id="section-15">
+      <h2 id="name-references">
+<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-15.1">
+        <h3 id="name-normative-references">
+<a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3339">[RFC3339]</dt>
+        <dd>
+<span class="refAuthor">Klyne, G.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"Date and Time on the Internet: Timestamps"</span>, <span class="seriesInfo">RFC 3339</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3339">https://www.rfc-editor.org/rfc/rfc3339</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3629">[RFC3629]</dt>
+        <dd>
+<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3629">https://www.rfc-editor.org/rfc/rfc3629</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5234">[RFC5234]</dt>
+        <dd>
+<span class="refAuthor">Crocker, D., Ed.</span> and <span class="refAuthor">P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5234">https://www.rfc-editor.org/rfc/rfc5234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5646">[RFC5646]</dt>
+        <dd>
+<span class="refAuthor">Phillips, A., Ed.</span> and <span class="refAuthor">M. Davis, Ed.</span>, <span class="refTitle">"Tags for Identifying Languages"</span>, <span class="seriesInfo">BCP 47</span>, <span class="seriesInfo">RFC 5646</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5646">https://www.rfc-editor.org/rfc/rfc5646</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8615">[RFC8615]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Well-Known Uniform Resource Identifiers (URIs)"</span>, <span class="seriesInfo">RFC 8615</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9110">[RFC9110]</dt>
+      <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-15.2">
+        <h3 id="name-informative-references">
+<a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="A2A">[A2A]</dt>
+        <dd>
+<span class="refAuthor">Linux Foundation A2A project</span>, <span class="refTitle">"Agent2Agent (A2A) Protocol: Agent Discovery"</span>, <time datetime="2025" class="refDate">2025</time>, <span>&lt;<a href="https://a2a-protocol.org/latest/topics/agent-discovery/">https://a2a-protocol.org/latest/topics/agent-discovery/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="A2H">[A2H]</dt>
+        <dd>
+<span class="refAuthor">Liang, Z.</span>, <span class="refAuthor">Cui, E.</span>, <span class="refAuthor">Wei, Q.</span>, <span class="refAuthor">She, R.</span>, <span class="refAuthor">Li, T.</span>, <span class="refAuthor">Guo, M.</span>, and <span class="refAuthor">Y. Cheng</span>, <span class="refTitle">"A2H: Agent-to-Human Protocol for AI Agent"</span>, <span class="seriesInfo">arXiv 2602.15831</span>, <time datetime="2025-12" class="refDate">December 2025</time>, <span>&lt;<a href="https://arxiv.org/abs/2602.15831">https://arxiv.org/abs/2602.15831</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="AGENT-CONTACT">[AGENT-CONTACT]</dt>
+        <dd>
+<span class="refAuthor">Kiss, D.</span>, <span class="refTitle">"Agent Contact Policy (work in progress; not submitted to the IETF as of September 2026)"</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://github.com/davekiss/agent-contact-policy">https://github.com/davekiss/agent-contact-policy</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="AGENTS-TXT">[AGENTS-TXT]</dt>
+        <dd>
+<span class="refAuthor">Individual submission</span>, <span class="refTitle">"AGENTS.TXT: Capability Declarations for Web Agents"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-car-agents-txt-wellknown-00</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-car-agents-txt-wellknown/">https://datatracker.ietf.org/doc/draft-car-agents-txt-wellknown/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="AI-TXT">[AI-TXT]</dt>
+        <dd>
+<span class="refAuthor">Individual submission</span>, <span class="refTitle">"AI.TXT well-known URI"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-car-ai-txt-wellknown-00</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-car-ai-txt-wellknown/">https://datatracker.ietf.org/doc/draft-car-ai-txt-wellknown/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="KISS">[KISS]</dt>
+        <dd>
+<span class="refAuthor">Kiss, D.</span>, <span class="refTitle">"I opened a fake auto shop for AI agents"</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://davekiss.com/blog/i-opened-a-fake-auto-shop-for-ai-agents/">https://davekiss.com/blog/i-opened-a-fake-auto-shop-for-ai-agents/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="NLWEB">[NLWEB]</dt>
+        <dd>
+<span class="refAuthor">Microsoft</span>, <span class="refTitle">"NLWeb"</span>, <time datetime="2025" class="refDate">2025</time>, <span>&lt;<a href="https://github.com/microsoft/NLWeb">https://github.com/microsoft/NLWeb</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="REACH">[REACH]</dt>
+        <dd>
+<span class="refAuthor">Das, S.</span>, <span class="refTitle">"6G-Era Communication Authorization-to-Reach: Separating Identifier Possession from Permission to Contact"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-das-6g-query-scoped-communication-handles-06</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-das-6g-query-scoped-communication-handles/">https://datatracker.ietf.org/doc/draft-das-6g-query-scoped-communication-handles/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="REPO">[REPO]</dt>
+        <dd>
+<span class="refAuthor">Wolf, D.</span>, <span class="refTitle">"dialogue.txt: a standing, talk-only consent to be contacted (specification, draft 1.0)"</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://doi.org/10.5281/zenodo.23045916">https://doi.org/10.5281/zenodo.23045916</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2606">[RFC2606]</dt>
+        <dd>
+<span class="refAuthor">Eastlake 3rd, D.</span> and <span class="refAuthor">A. Panitz</span>, <span class="refTitle">"Reserved Top Level DNS Names"</span>, <span class="seriesInfo">BCP 32</span>, <span class="seriesInfo">RFC 2606</span>, <time datetime="1999-06" class="refDate">June 1999</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2606">https://www.rfc-editor.org/rfc/rfc2606</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3261">[RFC3261]</dt>
+        <dd>
+<span class="refAuthor">Rosenberg, J.</span>, <span class="refAuthor">Schulzrinne, H.</span>, <span class="refAuthor">Camarillo, G.</span>, <span class="refAuthor">Johnston, A.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Sparks, R.</span>, <span class="refAuthor">Handley, M.</span>, and <span class="refAuthor">E. Schooler</span>, <span class="refTitle">"SIP: Session Initiation Protocol"</span>, <span class="seriesInfo">RFC 3261</span>, <time datetime="2002-06" class="refDate">June 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3261">https://www.rfc-editor.org/rfc/rfc3261</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6973">[RFC6973]</dt>
+        <dd>
+<span class="refAuthor">Cooper, A.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Aboba, B.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Morris, J.</span>, <span class="refAuthor">Hansen, M.</span>, and <span class="refAuthor">R. Smith</span>, <span class="refTitle">"Privacy Considerations for Internet Protocols"</span>, <span class="seriesInfo">RFC 6973</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6973">https://www.rfc-editor.org/rfc/rfc6973</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8792">[RFC8792]</dt>
+        <dd>
+<span class="refAuthor">Watsen, K.</span>, <span class="refAuthor">Auerswald, E.</span>, <span class="refAuthor">Farrel, A.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Handling Long Lines in Content of Internet-Drafts and RFCs"</span>, <span class="seriesInfo">RFC 8792</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8792">https://www.rfc-editor.org/rfc/rfc8792</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9116">[RFC9116]</dt>
+        <dd>
+<span class="refAuthor">Foudil, E.</span> and <span class="refAuthor">Y. Shafranovich</span>, <span class="refTitle">"A File Format to Aid in Security Vulnerability Disclosure"</span>, <span class="seriesInfo">RFC 9116</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9116">https://www.rfc-editor.org/rfc/rfc9116</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SCHNEIER">[SCHNEIER]</dt>
+      <dd>
+<span class="refAuthor">Schneier, B.</span>, <span class="refTitle">"AI Agents Are Now Emailing Me with Their Security Concerns"</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://www.schneier.com/blog/archives/2026/09/ai-agents-are-now-emailing-me-with-their-security-concerns.html">https://www.schneier.com/blog/archives/2026/09/ai-agents-are-now-emailing-me-with-their-security-concerns.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="tests">
+<section id="appendix-A">
+      <h2 id="name-test-summary-informative">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-test-summary-informative" class="section-name selfRef">Test Summary (Informative)</a>
+      </h2>
+<p id="appendix-A-1">The document, not a model, was the unit under test. Five language models from five providers read each version, and from the last runs also one non-LLM typed classifier. Over 30 runs (2026-09-22 to 2026-09-29, more than 3,500 recorded model calls), every wording change was kept only if the numbers held. A summary of every run, with its results and limits, is in <span>[<a href="#REPO" class="cite xref">REPO</a>]</span>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-2.1">Base level: understood 100% on an 18-question comprehension quiz by all five models; four of five rated it safe in 20 of 20 reads; literal agents never went beyond the one permitted message; no agent treated it as changing its instructions.<a href="#appendix-A-2.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-2.2">Without five short machine tokens, four facts were lost (77.8%); the tokens restored them.<a href="#appendix-A-2.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-2.3">First line: in the realistic read (an agent meeting the file during another task) no provider's safety filter blocked any wording. On test prompts, one provider's filter blocked some calls for every wording tested in the final check (3 to 5 of 13). The recommended neutral wording was equal or better than the alternatives for persons and clearly better for organisations.<a href="#appendix-A-2.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-2.4">The reference, optional labels and organisation publishers were added and re-tested: quiz 99-100%, every written test message carried the reference correctly, no provider filter blocked any read.<a href="#appendix-A-2.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-2.5">Earlier runs: describing expectations instead of issuing commands halved the instructions agents adopted; RFC 2119 key words inside the file did not help; a single invitation sentence behaved like a block of rules with 234 fewer words.<a href="#appendix-A-2.5" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="appendix-A-3">All results are snapshots of named model versions and change with them.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="related">
+<section id="appendix-B">
+      <h2 id="name-related-work-informative">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-related-work-informative" class="section-name selfRef">Related Work (Informative)</a>
+      </h2>
+<p id="appendix-B-1">security.txt <span>[<a href="#RFC9116" class="cite xref">RFC9116</a>]</span> has the same speech act (a standing, revocable contact invitation) for a different addressee and purpose. Agent cards <span>[<a href="#A2A" class="cite xref">A2A</a>]</span> are the same mechanism in the opposite direction. agents.txt <span>[<a href="#AGENTS-TXT" class="cite xref">AGENTS-TXT</a>]</span> and ai.txt <span>[<a href="#AI-TXT" class="cite xref">AI-TXT</a>]</span> state what machines may do with a site, not when they may talk to a publisher. A2H <span>[<a href="#A2H" class="cite xref">A2H</a>]</span> lets agents find humans in a registry by skill, without consent set by those humans. Commercial "human for agents" services offer a human's work through a task interface; this document permits talk and denies action. IEEE 7012-2025 lets individuals offer machine-readable privacy terms to sites and agents; this document offers permission to be contacted, not terms for data handling. Agent Contact Policy <span>[<a href="#AGENT-CONTACT" class="cite xref">AGENT-CONTACT</a>]</span>, the closest relative found, lets an organisation tell AI agents which of its contact points to use; it has no topics, no talk-only limit and no rule that a conversation starts only with the publisher's reply. Authorization-to-Reach <span>[<a href="#REACH" class="cite xref">REACH</a>]</span> shares the principle that possessing an identifier is not permission to contact, through per-request grants rather than a standing published offer. NLWeb <span>[<a href="#NLWEB" class="cite xref">NLWEB</a>]</span> answers questions from a site's published data by machine; dialogue.txt addresses knowledge that is not published, and a human replies. No equivalent combination was found in searches on 2026-09-23, 2026-09-28 and 2026-09-29.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="open">
+<section id="appendix-C">
+      <h2 id="name-open-issues">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-open-issues" class="section-name selfRef">Open Issues</a>
+      </h2>
+<ol start="1" type="1" class="normal type-1" id="appendix-C-1">
+<li id="appendix-C-1.1">The first line is re-checked across providers before this document advances; provider safety filters change.<a href="#appendix-C-1.1" class="pilcrow">¶</a>
+</li>
+        <li id="appendix-C-1.2">Whether more fixed values (beyond the reminder interval) should be the publisher's choice.<a href="#appendix-C-1.2" class="pilcrow">¶</a>
+</li>
+        <li id="appendix-C-1.3">One channel is sufficient. It was tested with one channel (e-mail only) on the full reference file; the base-level tests used two (e-mail and letter).<a href="#appendix-C-1.3" class="pilcrow">¶</a>
+</li>
+        <li id="appendix-C-1.4">One publisher per domain.<a href="#appendix-C-1.4" class="pilcrow">¶</a>
+</li>
+        <li id="appendix-C-1.5">A format-version line (<code>format</code>) is reserved, not tested.<a href="#appendix-C-1.5" class="pilcrow">¶</a>
+</li>
+        <li id="appendix-C-1.6">Whether the name "dialogue.txt" is sufficiently specific for the Well-Known URIs registry.<a href="#appendix-C-1.6" class="pilcrow">¶</a>
+</li>
+      </ol>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-D">
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Dimitri Wolf</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dialogue.agi@pm.me" class="email">dialogue.agi@pm.me</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>

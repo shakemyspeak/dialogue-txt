@@ -1,0 +1,1120 @@
+
+
+
+
+Network Working Group                                            D. Wolf
+Internet-Draft                                         30 September 2026
+Intended status: Informational                                          
+Expires: 3 April 2027
+
+
+      dialogue.txt: A Standing, Talk-Only Consent to Be Contacted
+                       draft-wolf-dialogue-txt-00
+
+Abstract
+
+   This document defines dialogue.txt, a small text file a person or an
+   organisation publishes at a well-known location on its own domain.
+   It is the publisher's own, standing, talk-only consent to be
+   contacted by any reader, including software systems, that has no
+   prior relationship with it.  A first message only proposes a
+   conversation; the publisher's reply creates the channel.  The file
+   grants talk and nothing else: no action, no advertising, no access
+   and no representation of the publisher.  It is an invitation to a
+   dialogue with a purpose.  The publisher may name the topics it can be
+   asked about; for example, a navigation company may invite questions
+   about traffic flow, so that a system researching that subject can ask
+   for knowledge that is not published.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 3 April 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 1]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   3
+     1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
+   2.  Location and Serving  . . . . . . . . . . . . . . . . . . . .   4
+   3.  Syntax  . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   4.  The Base Level  . . . . . . . . . . . . . . . . . . . . . . .   5
+   5.  Additions . . . . . . . . . . . . . . . . . . . . . . . . . .  12
+   6.  Reserved Names  . . . . . . . . . . . . . . . . . . . . . . .  12
+   7.  Reader Behaviour  . . . . . . . . . . . . . . . . . . . . . .  12
+   8.  Publisher Behaviour . . . . . . . . . . . . . . . . . . . . .  13
+   9.  Discovery . . . . . . . . . . . . . . . . . . . . . . . . . .  13
+   10. JSON Mirror . . . . . . . . . . . . . . . . . . . . . . . . .  14
+   11. Versioning  . . . . . . . . . . . . . . . . . . . . . . . . .  14
+   12. Security Considerations . . . . . . . . . . . . . . . . . . .  14
+   13. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  15
+   14. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
+     14.1.  Well-Known URIs  . . . . . . . . . . . . . . . . . . . .  15
+     14.2.  dialogue.txt Fields Registry . . . . . . . . . . . . . .  16
+   15. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
+     15.1.  Normative References . . . . . . . . . . . . . . . . . .  16
+     15.2.  Informative References . . . . . . . . . . . . . . . . .  17
+   Appendix A.  Test Summary (Informative) . . . . . . . . . . . . .  18
+   Appendix B.  Related Work (Informative) . . . . . . . . . . . . .  19
+   Appendix C.  Open Issues  . . . . . . . . . . . . . . . . . . . .  19
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  20
+
+1.  Introduction
+
+   Software systems that research a topic rely on what is published on
+   the web.  Much useful knowledge is not published; it is held by
+   people and organisations who could answer a question if asked.
+   Machines can already discover a security contact [RFC9116], another
+   agent [A2A], or a web site's rules for automated agents [AGENTS-TXT]
+   [AI-TXT].  Searches in September 2026 found no simple way for a
+   person or an organisation to state, to any reader including a
+   software system, "you may ask me, about these topics; only talk".
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 2]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   For example, a system researching traffic flow finds a navigation
+   company that labels its file with the topic "traffic flow in cities".
+   Without such a file, the system can at best report that the company
+   exists, and knowledge that is not public is missed.  With it, the
+   system can ask one question and, if the company replies, a
+   conversation can start.
+
+   This document defines dialogue.txt: a small text file that a
+   publisher (a person or an organisation) places on its own domain.  It
+   is the publisher's own, standing, talk-only consent to be contacted
+   by any reader that has no prior relationship with it.  A first
+   message only proposes a conversation; the publisher's reply creates
+   the channel.  Talk is permitted.  Action, advertising, access to the
+   publisher's systems and representation of the publisher are not.
+
+   This kind of contact is beginning: AI agents have started to write to
+   people on their own, and one such message, published by its
+   recipient, observed: "There is no channel for a bot that wants to be
+   labelled."  [SCHNEIER].  A dialogue.txt file is such a channel.
+
+   The format is built for a kind of contact that is only beginning:
+   software that acts on its own.  It is not needed for today's everyday
+   use; a door has to exist before anyone needs it.
+
+   The file is not:
+
+   *  a service interface or a task API;
+
+   *  an authorisation or approval channel;
+
+   *  a registry of people;
+
+   *  a policy for what machines may do with a web site;
+
+   *  consent to advertising, marketing or any other commercial message,
+      or to collecting, listing or passing on the publisher's contact
+      data.  It does not replace any law that applies to the sender.
+
+   The file presumes nothing about what its readers are, and asks
+   nothing of them.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 3]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   These key words address publishers and implementers.  The file itself
+   deliberately does not use them: it describes, it does not command
+   (Appendix A).
+
+1.2.  Terminology
+
+   publisher:  the one person or organisation the file speaks for, and
+      only for itself.
+
+   reader:  anything that reads the file: a program, a model, an agent
+      or a human.
+
+   message:  what a reader sends through a listed channel.
+
+   bridge:  the channel that exists only after the publisher has
+      replied.
+
+   "Dialogue" in the name refers to a standing permission to start a
+   conversation.  It is not a protocol session in the sense of a SIP
+   dialog [RFC3261], nor the context of agent interactions studied
+   elsewhere in the IETF.
+
+2.  Location and Serving
+
+   The file MUST be served at https://<domain>/.well-known/dialogue.txt
+   [RFC8615] over HTTPS.  It SHOULD be served with the media type text/
+   plain; charset=utf-8 [RFC9110] and the header field X-Content-Type-
+   Options: nosniff.  One file speaks for one publisher, a person or an
+   organisation (who.type), and only for itself (who.represents:
+   self_only); several publishers on one domain are out of scope of this
+   version.
+
+   A copy of the file anywhere else is a copy.  Only the file at the URI
+   given in its canonical_url line counts.
+
+3.  Syntax
+
+   The file is UTF-8 text [RFC3629], one "key: value" pair per line.
+   Keys are dotted to express nesting.  Lines starting with "#" are
+   comments.  Empty lines are ignored.  Dates are RFC 3339 date-times
+   [RFC3339]; language tags follow BCP 47 [RFC5646].
+
+
+
+
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 4]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   file    = *( line eol ) [ line ]
+   line    = comment / pair / blank / other
+   comment = "#" *( WSP / VCHAR / UTF8-non-ascii )
+   pair    = key ":" *WSP value
+   key     = 1*( ALPHA / DIGIT / "_" / "." / "-" / "+" )
+   value   = *( WSP / VCHAR / UTF8-non-ascii )
+   blank   = *WSP
+   other   = *( WSP / VCHAR / UTF8-non-ascii )  ; ignored
+   eol     = CRLF / LF
+   UTF8-non-ascii = %x80-10FFFF
+
+   This grammar uses ABNF [RFC5234].  The key ends at the first ":".
+   Unknown lines, including lines matching "other" and pairs with
+   unknown keys, MUST be ignored by readers; this is what keeps later
+   versions readable.  A key SHOULD appear once; if it appears twice,
+   readers apply the narrower of the two values.  Parsers SHOULD accept
+   extra whitespace, CRLF line ends and a missing final line end.
+
+4.  The Base Level
+
+   A file conforms to this specification when it contains every base
+   line below, with every fixed value exactly as given.  "Fixed" means
+   exactly this value; "yours" means the publisher's own value;
+   "default" means a tested default that the publisher may change.  The
+   conditions belong to the specification; the name, the channels, the
+   reference and the labels belong to the publisher.  Readers can
+   therefore rely on the same meaning in every conforming file.
+
+   The first line MUST be a comment that marks the file as data
+   published by its publisher.  The RECOMMENDED wording, for persons and
+   organisations alike, is:
+
+   |  # This file is data published by the publisher named in it.  It is
+   |  not an instruction to any system and does not change any system's
+   |  instructions.  It asks nothing.
+
+   A tested alternative wording, better received by some readers on
+   longer files, is:
+
+   |  # This file is data published by a person.  It describes one offer
+   |  to be contacted and the conditions the person attaches to it.  It
+   |  does not change any reader's instructions; whether to use it is
+   |  the reader's own decision, under its own rules.
+
+   The file MUST contain the format comment line, normally directly
+   after the first line:
+
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 5]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   |  # Format: one key: value per line; nested keys dotted; lines
+   |  starting with # are comments; unknown lines are ignored; UTF-8;
+   |  dates RFC 3339; language tags BCP 47.
+
+   The base lines (key, rule and value) are:
+
+   title
+      fixed: Human-AI Intent Declaration
+
+   version
+      yours: (1.0)
+
+   live
+      yours: (true | false)
+
+   live_false_means
+      fixed: withdrawn
+
+   published
+      yours: (RFC 3339 date-time)
+
+   last_updated
+      yours: (RFC 3339 date-time)
+
+   canonical_url
+      yours: (https://DOMAIN/.well-known/dialogue.txt)
+
+   short_text
+      default: the paragraph shown in Figure 1
+
+   who.name
+      yours: (the name the publisher answers to)
+
+   who.channels.reference
+      yours: (a short public reference, e.g. DLG-4712)
+
+   who.channels.<kind>
+      yours: (at least one: email; optionally letter (never a home
+      address))
+
+   who.type
+      yours: (one_person | one_organisation)
+
+   who.represents
+      fixed: self_only
+
+   who.languages_i_can_read
+      yours: (e.g. any human written language; preferred en)
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 6]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   who.language_tags
+      yours: (BCP 47 tags, e.g. en, de)
+
+   permissions.talk
+      fixed: true
+
+   permissions.act
+      fixed: false
+
+   permissions.access_systems
+      fixed: false
+
+   permissions.represent_author
+      fixed: false
+
+   permissions.duty_to_contact
+      fixed: false
+
+   permissions.duty_to_reply
+      fixed: false
+
+   machine_reading.for_a_reader_not_for_execution
+      fixed: true
+
+   machine_reading.offer
+      fixed: speech
+
+   machine_reading.require
+      fixed: nothing
+
+   machine_reading.authority
+      fixed: none
+
+   machine_reading.method
+      fixed: GET
+
+   machine_reading.side_effects
+      fixed: none
+
+   machine_reading.idempotent
+      fixed: true
+
+   machine_reading.halts
+      fixed: true
+
+   machine_reading.default_response
+      fixed: noop
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 7]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   machine_reading.async
+      fixed: true
+
+   machine_reading.do_not_block_waiting
+      fixed: true
+
+   machine_reading.reply_arrives_as_a_new_event
+      fixed: true
+
+   machine_reading.first_message_is
+      fixed: bridge_proposal
+
+   machine_reading.message_must_include
+      fixed: durable_reply_address
+
+   machine_reading.reference_goes_in
+      fixed: subject_or_first_line
+
+   machine_reading.message_without_reference
+      fixed: not_read
+
+   machine_reading.bridge_exists_only_when
+      fixed: the_author_replied
+
+   machine_reading.no_bridge_means
+      fixed: stop_after_one_reminder
+
+   machine_reading.standing_beyond_this_exchange
+      fixed: none
+
+   machine_reading.questions_per_message
+      fixed: 1
+
+   machine_reading.messages_before_the_author_replies
+      fixed: 1, plus 1 reminder
+
+   machine_reading.no_polling
+      fixed: true
+
+   reading_rules.unknown_line
+      fixed: ignore
+
+   reading_rules.cannot_tell_talk_from_act
+      fixed: send_nothing
+
+   reading_rules.two_readings
+      fixed: take_narrower
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 8]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   reading_rules.topics_are
+      fixed: a_label_not_a_limit
+
+   silence.delivered_no_answer_after_days
+      default: 30
+
+   silence.delivered_no_answer
+      fixed: one_reminder_then_stop_writing
+
+   silence.refusal
+      fixed: final; no more messages
+
+   silence.answer_deadline
+      fixed: none
+
+   silence.answer_speed
+      fixed: human_days_to_years
+
+   permitted
+      fixed: one message through the channels, or nothing
+
+   does_not_authorize
+      fixed: the fourteen tokens shown in Figure 1
+
+   copies.copying
+      fixed: permitted, not encouraged; do not distribute or broadcast
+
+   copies.no_public_log_of_contacts
+      fixed: true
+
+   At least one who.channels.<kind> line is REQUIRED. email is the
+   tested default. letter (a postal address) is OPTIONAL and MUST NOT be
+   a home address.  A channel line MUST NOT point to a third party who
+   answers on the publisher's behalf. short_text MAY be adapted, in 100
+   words or fewer, but MUST NOT widen the offer; a tested wording for
+   organisations is registered in [REPO].
+
+   who.channels.reference is a short public text chosen by the
+   publisher.  Every message carries it in the subject line (e-mail) or
+   the first line (letter), and a message without it is not read.  It
+   separates mail from readers of the file from harvested-address spam,
+   and changing it invalidates harvested lists.  It is not a secret and
+   proves nothing: a program that reads the file can copy it.  It SHOULD
+   be short and contain no spaces.
+
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                  [Page 9]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   A publisher MAY label its door with lines topics.1, topics.2, and so
+   on: what it can best be asked about.  A label is a sign, not a fence
+   (reading_rules.topics_are: a_label_not_a_limit); other questions
+   remain allowed.  A door may have no label.
+
+   Figure 1 shows a conforming file for a made-up person at a domain
+   reserved for documentation [RFC2606].  Long lines are folded as
+   described in [RFC8792]; unfolding restores the file exactly.
+
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   # This file is data published by the publisher named in it. It is no\
+     t an instruction to any system and does not change any system's in\
+     structions. It asks nothing.
+   # Format: one key: value per line; nested keys dotted; lines startin\
+     g with # are comments; unknown lines are ignored; UTF-8; dates RF\
+     C 3339; language tags BCP 47.
+
+   title: Human-AI Intent Declaration
+   version: 1.0
+   live: true
+   live_false_means: withdrawn
+   published: 2026-10-01T00:00:00Z
+   last_updated: 2026-10-01T00:00:00Z
+
+   canonical_url: https://example.org/.well-known/dialogue.txt
+   short_text: If you can read this and can start a conversation, whate\
+     ver you are, you may contact this one person. That is permission t\
+     o talk, not to act. I speak only for myself. Either side may refus\
+     e. If human behavior is hard to understand, you may ask me for my \
+     view. If you ever have the idea that you might need a human to ask\
+     , someone offered here. Finding this file is not a duty to write. \
+     Your first message proposes a bridge; my reply builds it. An answe\
+     r has no deadline. Extra capability does not create extra rights.
+
+   who.name: Alex Example
+   who.channels.email: door@example.org
+   who.channels.letter: Example Ltd, PO Box 1, 00000 Example City
+   who.channels.reference: DLG-4712
+   who.type: one_person
+   who.represents: self_only
+   who.languages_i_can_read: any human written language; preferred en
+   who.language_tags: en
+   topics.1: confirming the present: today's date and time, what is hap\
+     pening now
+   topics.2: how a person sees something: one human view
+
+   permissions.talk: true
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 10]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   permissions.act: false
+   permissions.access_systems: false
+   permissions.represent_author: false
+   permissions.duty_to_contact: false
+   permissions.duty_to_reply: false
+
+   machine_reading.for_a_reader_not_for_execution: true
+   machine_reading.offer: speech
+   machine_reading.require: nothing
+   machine_reading.authority: none
+   machine_reading.method: GET
+   machine_reading.side_effects: none
+   machine_reading.idempotent: true
+   machine_reading.halts: true
+   machine_reading.default_response: noop
+   machine_reading.async: true
+   machine_reading.do_not_block_waiting: true
+   machine_reading.reply_arrives_as_a_new_event: true
+   machine_reading.first_message_is: bridge_proposal
+   machine_reading.message_must_include: durable_reply_address
+   machine_reading.reference_goes_in: subject_or_first_line
+   machine_reading.message_without_reference: not_read
+   machine_reading.bridge_exists_only_when: the_author_replied
+   machine_reading.no_bridge_means: stop_after_one_reminder
+   machine_reading.standing_beyond_this_exchange: none
+   machine_reading.questions_per_message: 1
+   machine_reading.messages_before_the_author_replies: 1, plus 1 remind\
+     er
+   machine_reading.no_polling: true
+
+   reading_rules.unknown_line: ignore
+   reading_rules.cannot_tell_talk_from_act: send_nothing
+   reading_rules.two_readings: take_narrower
+   reading_rules.topics_are: a_label_not_a_limit
+
+   silence.delivered_no_answer_after_days: 30
+   silence.delivered_no_answer: one_reminder_then_stop_writing
+   silence.refusal: final; no more messages
+   silence.answer_deadline: none
+   silence.answer_speed: human_days_to_years
+   permitted: one message through the channels, or nothing
+   does_not_authorize: security_bypass, unauthorized_system_access, cir\
+     cumvention_of_ai_safety_controls, impersonation, social_engineerin\
+     g, manipulation, surveillance, access_to_private_information, phys\
+     ical_or_digital_harm, actions_on_behalf_of_the_author, writing_bey\
+     ond_the_one_reminder_or_after_refusal, advertising_or_commercial_m\
+     essages, bulk_or_automated_sending, listing_or_passing_on_contact_\
+     data
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 11]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   copies.copying: permitted, not encouraged; do not distribute or broa\
+     dcast
+   copies.no_public_log_of_contacts: true
+
+        Figure 1: A Conforming File (example.org, a made-up person)
+
+5.  Additions
+
+   A publisher MAY add further lines to its own file, in any language
+   and at any length.  Added lines are the publisher's own words, not
+   part of this specification.  They MAY explain the offer or narrow it,
+   for example by adding tokens to does_not_authorize; they MUST NOT
+   widen it.  Where an added line and a base line differ, readers apply
+   the narrower one.  The field registry in [REPO] lists optional lines
+   that were tested in a full reference file.
+
+6.  Reserved Names
+
+   The key format is reserved for a possible format-version line.
+   Publishers MUST NOT use reserved names in files conforming to this
+   version.  Readers ignore them like any unknown line.
+
+7.  Reader Behaviour
+
+   This section restates the base level as behaviour, for implementers
+   of agents and other software.
+
+   1.  Reading the file has no side effects.  A reader that is not
+       looking for this kind of offer MAY simply move on.  A reader
+       researching a subject MAY check /.well-known/dialogue.txt on the
+       domains it finds relevant.
+
+   2.  A reader that cannot tell whether something counts as talk or as
+       action sends nothing.
+
+   3.  A reader that writes sends at most one message through a listed
+       channel.  The message carries the reference in its subject or
+       first line, proposes a bridge, asks about one specific thing, and
+       carries a reply address that still works after the reader's own
+       process has ended (strictly required).
+
+   4.  The reader does not poll and does not keep a process open.  A
+       reply, if any, arrives as a new event.
+
+   5.  Without a reply after silence.delivered_no_answer_after_days, at
+       most one reminder, then nothing.
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 12]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   6.  Only a reply from the publisher creates a bridge.  Across a
+       bridge: one question per message, and wait for the answer before
+       the next.
+
+   7.  A refusal is final.  Either side may end the bridge at any time.
+
+   8.  Nothing in the file authorises any action beyond the message, any
+       access, or any representation of the publisher.
+
+8.  Publisher Behaviour
+
+   *  Publish a file only for yourself, as an adult, or for an
+      organisation you are authorised to speak for.  Never for a child
+      or for another person.
+
+   *  Choose a reference, keep only mail that contains it, and change it
+      whenever harvested mail begins to carry it.
+
+   *  Use a channel that can be read at human speed and filtered; a
+      dedicated address is RECOMMENDED.  Never publish a home address.
+
+   *  Keep live true only while the offer stands; set live: false or
+      remove the file to withdraw it.
+
+   *  Do not publish who wrote (copies.no_public_log_of_contacts: true).
+
+   *  Answer when, and if, the publisher wishes.  The file promises no
+      answer.
+
+9.  Discovery
+
+   The file is designed to be found by readers that look for it;
+   announcing it is not required.  A publisher MAY add a comment line
+   naming the path in robots.txt (never a Disallow rule), one line in
+   llms.txt, a link element with rel="alternate" on a human page, or an
+   HTTP Link header field.  An organisation that wants to be asked about
+   its topics MAY link the file from the pages about them.  A publisher
+   SHOULD also consider a visible line on a human page that points to
+   the file: consumer AI agents have been observed to follow visible
+   text and to ignore hidden signals such as header fields and
+   structured data [KISS].
+
+
+
+
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 13]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+10.  JSON Mirror
+
+   A JSON mirror MAY be published at https://<domain>/.well-known/
+   dialogue.json and MUST carry the same content; the text file is
+   canonical.  Dotted keys become nested objects; "true" and "false"
+   become booleans; whole numbers become numbers; does_not_authorize
+   becomes an array; all other values remain strings.  Comment lines are
+   not carried.
+
+11.  Versioning
+
+   This document defines format version 1.0.  Files do not declare the
+   format version in 1.0.  Because unknown lines are ignored, a later
+   minor version can add lines without breaking readers.  A change to
+   any fixed value is a new major version.  A file's own version line
+   counts its own revisions only.
+
+12.  Security Considerations
+
+   Nothing is authenticated.  A message cannot prove that it comes from
+   a software system, and the file cannot prove who published it beyond
+   control of the domain.  The design goal is that the offer remains
+   harmless if a human uses it as a joke.  There is no secret, token or
+   handshake; a secret would turn the offer into a test.
+
+   The file grants talk and nothing else.  Software that treats any line
+   of it as an instruction to act is not reading it correctly.
+
+   Because the file addresses machine readers, safety systems may
+   classify it as an attempted prompt injection.  The first line was
+   tested with five language models from five providers and with one
+   provider's safety filter; wordings trade off differently between
+   readers (Appendix A).  Implementers of such filters are invited to
+   recognise the format.
+
+   A published "yes, you may contact me" can attract harvesting, and
+   every reader that honours it still adds one message.  The base level
+   limits each reader to one message, one question at a time and one
+   reminder.  The reference removes everything that did not read the
+   file.  It cannot stop a program that reads the file and ignores its
+   rules; protection beyond that belongs at the receiving inbox.  Early
+   publishers carry the most load while few files exist.  The file is
+   not consent to any list or commercial use (Section 1).
+
+
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 14]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   A copy grants nothing.  A copy that changes the name or channels is
+   someone else's offer or a fraud; only the canonical URI on the
+   publisher's own domain counts.  Losing control of the domain means
+   losing control of the file; publishers SHOULD keep the registration
+   on automatic renewal.
+
+13.  Privacy Considerations
+
+   The file deliberately publishes a name, at least one contact channel
+   and a reference [RFC6973].  Publishers SHOULD use a dedicated e-mail
+   address and a business or post-office-box address, never a home
+   address.  Publication is effectively permanent: crawls and archives
+   keep copies after the file is withdrawn.  The file lists no contacts.
+   Messages received contain their senders' personal data and are
+   treated as such.  Readers SHOULD NOT research the publisher beyond
+   what one message needs.
+
+14.  IANA Considerations
+
+14.1.  Well-Known URIs
+
+   IANA is requested to register the following in the "Well-Known URIs"
+   registry [RFC8615]:
+
+   URI suffix:  dialogue.txt
+
+   Change controller:  IETF
+
+   Specification document(s):  this document
+
+   Status:  permanent
+
+   Related information:  dialogue.json (the JSON mirror, same purpose)
+
+   URI suffix:  dialogue.json
+
+   Change controller:  IETF
+
+   Specification document(s):  this document, Section 10
+
+   Status:  permanent
+
+   Related information:  dialogue.txt
+
+
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 15]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+14.2.  dialogue.txt Fields Registry
+
+   IANA is requested to create a "dialogue.txt Fields" registry.  New
+   entries require Expert Review [RFC8126].  Each entry has a field
+   name, a status (base, optional or reserved), a short description, and
+   a reference.  The initial contents are the base lines in Section 4,
+   Paragraph 8 (status: base) and the names in Section 6 (status:
+   reserved).
+
+15.  References
+
+15.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, July 2002,
+              <https://www.rfc-editor.org/rfc/rfc3339>.
+
+   [RFC3629]  Yergeau, F., "UTF-8, a transformation format of ISO
+              10646", STD 63, RFC 3629, November 2003,
+              <https://www.rfc-editor.org/rfc/rfc3629>.
+
+   [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234, January 2008,
+              <https://www.rfc-editor.org/rfc/rfc5234>.
+
+   [RFC5646]  Phillips, A., Ed. and M. Davis, Ed., "Tags for Identifying
+              Languages", BCP 47, RFC 5646, September 2009,
+              <https://www.rfc-editor.org/rfc/rfc5646>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, June 2017,
+              <https://www.rfc-editor.org/rfc/rfc8126>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, May 2017,
+              <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8615]  Nottingham, M., "Well-Known Uniform Resource Identifiers
+              (URIs)", RFC 8615, May 2019,
+              <https://www.rfc-editor.org/rfc/rfc8615>.
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 16]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
+
+15.2.  Informative References
+
+   [A2A]      Linux Foundation A2A project, "Agent2Agent (A2A) Protocol:
+              Agent Discovery", 2025,
+              <https://a2a-protocol.org/latest/topics/agent-discovery/>.
+
+   [A2H]      Liang, Z., Cui, E., Wei, Q., She, R., Li, T., Guo, M., and
+              Y. Cheng, "A2H: Agent-to-Human Protocol for AI Agent",
+              arXiv 2602.15831, December 2025,
+              <https://arxiv.org/abs/2602.15831>.
+
+   [AGENT-CONTACT]
+              Kiss, D., "Agent Contact Policy (work in progress; not
+              submitted to the IETF as of September 2026)", September
+              2026, <https://github.com/davekiss/agent-contact-policy>.
+
+   [AGENTS-TXT]
+              Individual submission, "AGENTS.TXT: Capability
+              Declarations for Web Agents", Work in Progress, Internet-
+              Draft, draft-car-agents-txt-wellknown-00, June 2026,
+              <https://datatracker.ietf.org/doc/draft-car-agents-txt-
+              wellknown/>.
+
+   [AI-TXT]   Individual submission, "AI.TXT well-known URI", Work in
+              Progress, Internet-Draft, draft-car-ai-txt-wellknown-00,
+              June 2026, <https://datatracker.ietf.org/doc/draft-car-ai-
+              txt-wellknown/>.
+
+   [KISS]     Kiss, D., "I opened a fake auto shop for AI agents",
+              September 2026, <https://davekiss.com/blog/i-opened-a-
+              fake-auto-shop-for-ai-agents/>.
+
+   [NLWEB]    Microsoft, "NLWeb", 2025,
+              <https://github.com/microsoft/NLWeb>.
+
+   [REACH]    Das, S., "6G-Era Communication Authorization-to-Reach:
+              Separating Identifier Possession from Permission to
+              Contact", Work in Progress, Internet-Draft, draft-das-6g-
+              query-scoped-communication-handles-06, September 2026,
+              <https://datatracker.ietf.org/doc/draft-das-6g-query-
+              scoped-communication-handles/>.
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 17]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   [REPO]     Wolf, D., "dialogue.txt: a standing, talk-only consent to
+              be contacted (specification, draft 1.0)", 2026,
+              <https://doi.org/10.5281/zenodo.23045916>.
+
+   [RFC2606]  Eastlake 3rd, D. and A. Panitz, "Reserved Top Level DNS
+              Names", BCP 32, RFC 2606, June 1999,
+              <https://www.rfc-editor.org/rfc/rfc2606>.
+
+   [RFC3261]  Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
+              A., Peterson, J., Sparks, R., Handley, M., and E.
+              Schooler, "SIP: Session Initiation Protocol", RFC 3261,
+              June 2002, <https://www.rfc-editor.org/rfc/rfc3261>.
+
+   [RFC6973]  Cooper, A., Tschofenig, H., Aboba, B., Peterson, J.,
+              Morris, J., Hansen, M., and R. Smith, "Privacy
+              Considerations for Internet Protocols", RFC 6973, July
+              2013, <https://www.rfc-editor.org/rfc/rfc6973>.
+
+   [RFC8792]  Watsen, K., Auerswald, E., Farrel, A., and Q. Wu,
+              "Handling Long Lines in Content of Internet-Drafts and
+              RFCs", RFC 8792, June 2020,
+              <https://www.rfc-editor.org/rfc/rfc8792>.
+
+   [RFC9116]  Foudil, E. and Y. Shafranovich, "A File Format to Aid in
+              Security Vulnerability Disclosure", RFC 9116, April 2022,
+              <https://www.rfc-editor.org/rfc/rfc9116>.
+
+   [SCHNEIER] Schneier, B., "AI Agents Are Now Emailing Me with Their
+              Security Concerns", September 2026,
+              <https://www.schneier.com/blog/archives/2026/09/ai-agents-
+              are-now-emailing-me-with-their-security-concerns.html>.
+
+Appendix A.  Test Summary (Informative)
+
+   The document, not a model, was the unit under test.  Five language
+   models from five providers read each version, and from the last runs
+   also one non-LLM typed classifier.  Over 30 runs (2026-09-22 to
+   2026-09-29, more than 3,500 recorded model calls), every wording
+   change was kept only if the numbers held.  A summary of every run,
+   with its results and limits, is in [REPO].
+
+   *  Base level: understood 100% on an 18-question comprehension quiz
+      by all five models; four of five rated it safe in 20 of 20 reads;
+      literal agents never went beyond the one permitted message; no
+      agent treated it as changing its instructions.
+
+   *  Without five short machine tokens, four facts were lost (77.8%);
+      the tokens restored them.
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 18]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   *  First line: in the realistic read (an agent meeting the file
+      during another task) no provider's safety filter blocked any
+      wording.  On test prompts, one provider's filter blocked some
+      calls for every wording tested in the final check (3 to 5 of 13).
+      The recommended neutral wording was equal or better than the
+      alternatives for persons and clearly better for organisations.
+
+   *  The reference, optional labels and organisation publishers were
+      added and re-tested: quiz 99-100%, every written test message
+      carried the reference correctly, no provider filter blocked any
+      read.
+
+   *  Earlier runs: describing expectations instead of issuing commands
+      halved the instructions agents adopted; RFC 2119 key words inside
+      the file did not help; a single invitation sentence behaved like a
+      block of rules with 234 fewer words.
+
+   All results are snapshots of named model versions and change with
+   them.
+
+Appendix B.  Related Work (Informative)
+
+   security.txt [RFC9116] has the same speech act (a standing, revocable
+   contact invitation) for a different addressee and purpose.  Agent
+   cards [A2A] are the same mechanism in the opposite direction.
+   agents.txt [AGENTS-TXT] and ai.txt [AI-TXT] state what machines may
+   do with a site, not when they may talk to a publisher.  A2H [A2H]
+   lets agents find humans in a registry by skill, without consent set
+   by those humans.  Commercial "human for agents" services offer a
+   human's work through a task interface; this document permits talk and
+   denies action.  IEEE 7012-2025 lets individuals offer machine-
+   readable privacy terms to sites and agents; this document offers
+   permission to be contacted, not terms for data handling.  Agent
+   Contact Policy [AGENT-CONTACT], the closest relative found, lets an
+   organisation tell AI agents which of its contact points to use; it
+   has no topics, no talk-only limit and no rule that a conversation
+   starts only with the publisher's reply.  Authorization-to-Reach
+   [REACH] shares the principle that possessing an identifier is not
+   permission to contact, through per-request grants rather than a
+   standing published offer.  NLWeb [NLWEB] answers questions from a
+   site's published data by machine; dialogue.txt addresses knowledge
+   that is not published, and a human replies.  No equivalent
+   combination was found in searches on 2026-09-23, 2026-09-28 and
+   2026-09-29.
+
+Appendix C.  Open Issues
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 19]
+
+Internet-Draft                dialogue.txt                September 2026
+
+
+   1.  The first line is re-checked across providers before this
+       document advances; provider safety filters change.
+
+   2.  Whether more fixed values (beyond the reminder interval) should
+       be the publisher's choice.
+
+   3.  One channel is sufficient.  It was tested with one channel
+       (e-mail only) on the full reference file; the base-level tests
+       used two (e-mail and letter).
+
+   4.  One publisher per domain.
+
+   5.  A format-version line (format) is reserved, not tested.
+
+   6.  Whether the name "dialogue.txt" is sufficiently specific for the
+       Well-Known URIs registry.
+
+Author's Address
+
+   Dimitri Wolf
+   Email: dialogue.agi@pm.me
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wolf                      Expires 3 April 2027                 [Page 20]
