@@ -44,7 +44,7 @@ Talk is permitted. Action, advertising, access to the publisher's systems, and s
 5. Check it: `python3 tools/validate.py dialogue.txt`, or use the page in `tools/try/`.
 6. In your mailbox, keep only mail that contains your reference. Change the reference whenever spam starts to carry it.
 
-Below the base lines you may add anything you like, in your own words. Additions may narrow the offer, never widen it. [`example/dialogue.txt`](example/dialogue.txt) shows a made-up person, and [`example/organisation/dialogue.txt`](example/organisation/dialogue.txt) a made-up organisation.
+Below the base lines you may add anything you like, in your own words. Additions may narrow the offer, never widen it. [`example/dialogue.txt`](example/dialogue.txt) shows a made-up person, and [`example/organisation/dialogue.txt`](example/organisation/dialogue.txt) a made-up organisation. A real one: the author's own file at [dotdoc.de/.well-known/dialogue.txt](https://dotdoc.de/.well-known/dialogue.txt), and its page for people at [dotdoc.de/dialogue/](https://dotdoc.de/dialogue/).
 
 ## What is here
 
